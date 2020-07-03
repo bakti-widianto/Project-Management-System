@@ -2,7 +2,8 @@
 <html>
 
 <head>
-  <title>PMS</title>
+  <title>PMS Dasrboard</title>
+  <link rel="icon" href="/images/owl-308773_640.png" sizes="16x16" type="image/png">
   <link rel='stylesheet' href='/stylesheets/style.css' />
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
@@ -24,8 +25,8 @@
     <!-- Fixed navbar -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
       <a class="navbar-brand" href="#" style="font-family: -apple-system;">
-        <img src="/images/owl-308773_640.png" width="30" height="30" class="d-inline-block align-top"
-          alt="" loading="lazy">
+        <img src="/images/owl-308773_640.png" width="30" height="30" class="d-inline-block align-top" alt=""
+          loading="lazy">
         Project Management System</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
         aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,10 +35,10 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Project<span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="/project">Project<span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Profile</a>
+            <a class="nav-link" href="/profile">Profile</a>
           </li>
           <li class="nav-item">
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
@@ -50,8 +51,148 @@
     </nav>
   </header>
 
+  <!-- form filter -->
+  <div class="container" style="margin-top: 20px">
+    <h1 style="font-family:Georgia, 'Times New Roman', Times, serif">Dasrboard Project</h1>
+    <hr>
+    <div class="container" style="margin-top: 20px ">
+      <div class="card bg-light mb-3" style="font-family: initial;">
+        <div class="card-header text-white bg-dark mb-3">
+          <h2 style="font-family:Georgia, 'Times New Roman', Times, serif">Filters</h2>
+        </div>
+        <div class="card-body">
+          <form action="/" method="GET" id="filterForm">
+            <div class="row">
+              <div class="col" style="margin-left: 20px;">
+                <div class="custom-control custom-checkbox mb-3" style="margin-top: 7px;">
+                  <input class="custom-control-input" type="checkbox" id="id" name="checkid">
+                  <label class="custom-control-label" for="id">
+                    ID
+                  </label>
+                </div>
+              </div>
+              <div class="col-10">
+                <div class="form-group" style="margin-right: 20px;">
+                  <input type="text" class="form-control" id="id" placeholder="ID" name="id">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col" style="margin-left: 20px;">
+                <div class="custom-control custom-checkbox mb-3" style="margin-top: 7px;">
+                  <input class="custom-control-input" type="checkbox" id="name" name="checkname">
+                  <label class="custom-control-label" for="name">
+                    Name
+                  </label>
+                </div>
+              </div>
+              <div class="col-10">
+                <div class="form-group" style="margin-right: 20px;">
+                  <input type="text" class="form-control" id="name" placeholder="Name" name="name">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col" style="margin-left: 20px" ;>
+                <div class="custom-control custom-checkbox mb-3" style="margin-top: 7px;">
+                  <input class="custom-control-input" type="checkbox" id="member" name="checkMember">
+                  <label class="custom-control-label" for="member">
+                    Member
+                  </label>
+                </div>
+              </div>
+              <div class="col-10">
+                <div class="form-group" style="margin-right: 20px;">
+                  <select id="member" class="custom-select custom-select" name="member">
+                    <option selected disabled>Choose the member ...</option>
+                    <option value="">iwan</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="container" style="margin-left: 20px;">
+                <button type="submit" class="btn btn-primary">Search</button>
+                <a href="/">
+                  <button type="button" class="btn btn-secondary" id="reset">Reset</button>
+                </a>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="card bg-light mb-3" style="font-family: initial;">
+      <div class="card-header">
+        <div class="form-check form-check-inline">
+          <h2 style="font-family:Georgia, 'Times New Roman', Times, serif">Option Columns</h2>
+
+          <div class="col" style="margin-left: 70px;">
+            <div class="custom-control custom-checkbox mb-3" style="margin-top: 10px;">
+              <input class="custom-control-input" type="checkbox" id="optionId" name="c_optionId">
+              <label class="custom-control-label" for="optionId">
+                ID
+              </label>
+            </div>
+          </div>
+
+          <div class="col" style="margin-left: 50px;">
+            <div class="custom-control custom-checkbox mb-3" style="margin-top: 10px;">
+              <input class="custom-control-input" type="checkbox" id="optionName" name="c_optionName">
+              <label class="custom-control-label" for="optionName">
+                Name
+              </label>
+            </div>
+          </div>
+
+          <div class="col" style="margin-left: 50px;">
+            <div class="custom-control custom-checkbox mb-3" style="margin-top: 10px;">
+              <input class="custom-control-input" type="checkbox" id="optionMamber" name="c_optionMamber">
+              <label class="custom-control-label" for="optionMamber">
+                Mamber
+              </label>
+            </div>
+          </div>
+
+          <div class="col" style="margin-left: 50px;">
+            <button class="btn btn-primary">Apply</button>
+          </div>
+
+        </div>
+      </div>
 
 
+      <div class="card-body">
+        <div class="container" style="margin-top: 10px">
+
+          <table class="table table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th>Project ID</th>
+                <th>Project Name</th>
+                <th>Project Members</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Movie App</td>
+                <td>Joko, Iwan</td>
+                <td>
+                  <button class="btn btn-success">Edit</button>
+                  <button class="btn btn-danger">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col">
+          <button class="btn btn-primary">Add Project</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </body>
 
 </html>
