@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PMS Profile</title>
+    <link rel="icon" href="/images/owl-308773_640.png" sizes="16x16" type="image/png">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" href="#" style="font-family: -apple-system;">
+                <img src="/images/owl-308773_640.png" width="30" height="30" class="d-inline-block align-top" alt=""
+                    loading="lazy">
+                Project Management System</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item ">
+                        <a class="nav-link" href="/projects">Project</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/profile">Profile<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+                <a href="/logout">
+                    <button class="btn btn-outline-danger my-2 my-sm-0">Logout</button>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- form filter -->
+    <div class="container" style="margin-top: 20px">
+        <h1 style="font-family:Georgia, 'Times New Roman', Times, serif">Profile</h1>
+        <hr>
+        <div class="container" style="margin-top: 20px ">
+            <div class="card bg-light mb-3" style="font-family: initial;">
+                <div class="card-header text-white bg-dark mb-3">
+                    <h2 style="font-family:Georgia, 'Times New Roman', Times, serif">Hello, <%=user.firstname%>
+                        <%=user.lastname%> !</h2>
+                </div>
+                <div class="card-body">
+
+                    <form action="" method="POST">
+                        <div class="form-group row">
+                            <label for="email" class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Email"
+                                    value="<%= data.email%>" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group row was-validated">
+                            <label for="password" class="col-sm-2 col-form-label">Password</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control is-invalid" id="password" name="password"
+                                    placeholder="Masukan Ulang Password" required>
+                            </div>
+                        </div>
+                        <div class="form-group row ">
+                            <label for="firstname" class="col-sm-2 col-form-label">First Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="firstname" name="firstname"
+                                    placeholder="First Name" value="<%= data.firstname%>">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="lastname" class="col-sm-2 col-form-label">Last Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="lastname" name="lastname"
+                                    placeholder="Last Name" value="<%= data.lastname%>">
+                            </div>
+                        </div>
+                        <fieldset class="form-group">
+                            <div class="row">
+                                <legend class="col-form-label col-sm-2 pt-0">Position</legend>
+                                <div class="col-sm-10">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="position" id="manager"
+                                            value="manager" <%= data.position == 'manager' ? 'checked' : '' %>>
+                                        <label class="form-check-label" for="manager">
+                                            Manager
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="position"
+                                            id="softwareDeveloper" value="softwareDeveloper"
+                                            <%= data.position == 'softwareDeveloper' ? 'checked' : '' %>>
+                                        <label class="form-check-label" for="softwareDeveloper">
+                                            Software Developer
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="position"
+                                            id="qualityAssurance" value="qualityAssurance"
+                                            <%= data.position == 'qualityAssurance' ? 'checked' : '' %> />
+                                        <label class="form-check-label" for="qualityAssurance">
+                                            Quality Assurance
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <div class="row">
+                                <legend class="col-form-label col-sm-2 pt-0">Type Job</legend>
+                                <div class="col-sm-10">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="typejob" id="fulltime"
+                                            value="fulltime" <%= data.typejob == 'fulltime' ? 'checked' : '' %>>
+                                        <label class="form-check-label" for="fulltime">
+                                            Full Time
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="typejob" id="parttime"
+                                            value="parttime" <%= data.typejob == 'parttime' ? 'checked' : '' %>>
+                                        <label class="form-check-label" for="parttime">
+                                            Part Time
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <br>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-dark">Update</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
