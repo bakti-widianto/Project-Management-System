@@ -6,6 +6,7 @@ const saltRounds = 10;
 
 module.exports = (db) => {
   router.get('/', check.isLoggedIn, (req, res, next) => {
+    let link = 'profile'
     let user = req.session.user
     let sql = `SELECT * FROM users WHERE email = '${user.email}'`
     console.log(sql)
@@ -14,7 +15,8 @@ module.exports = (db) => {
         error: true,
         message: err
       })
-      res.render('profile', {
+      res.render('profile/listProfile', {
+        link,
         user: user,
         data: data.rows[0]
       })
@@ -23,6 +25,7 @@ module.exports = (db) => {
 
   router.post('/', check.isLoggedIn, (req, res) => {
     let user = req.session.user
+    
     const { password, firstname, lastname, position, typejob } = req.body
     
     bcrypt.hash(password, saltRounds, function (err, hash) {

@@ -5,7 +5,8 @@ const check = require('../check/check');
 module.exports = (db) => {
   router.get('/', check.isLoggedIn, function (req, res, next) {
     let user = req.session.user
-    res.render('projects',{user});
+    let link = 'projects'
+    res.render('projects/dasrboardProjects',{user, link});
   });
 
   router.get('/:projectid/overview', check.isLoggedIn, function (req, res, next) {
