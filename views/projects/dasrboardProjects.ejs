@@ -23,7 +23,7 @@
           <h2 style="font-family:Georgia, 'Times New Roman', Times, serif">Filters</h2>
         </div>
         <div class="card-body">
-          <form action="/" method="GET" id="filterForm"> 
+          <form method="GET" id="filterForm">
             <div class="row">
               <div class="col" style="margin-left: 20px;">
                 <div class="custom-control custom-checkbox mb-3" style="margin-top: 7px;">
@@ -67,7 +67,11 @@
                 <div class="form-group" style="margin-right: 20px;">
                   <select id="member" class="custom-select custom-select" name="member">
                     <option selected disabled>Choose the member ...</option>
-                    <option value="">iwan</option>
+                    <option value="" disabled>Choose Members</option>
+                    <% users.forEach((item, index) => { %>
+                    <option value="<%= item.userid %>"><%= item.fullname %>
+                    </option>
+                    <% }) %>
                   </select>
                 </div>
               </div>
