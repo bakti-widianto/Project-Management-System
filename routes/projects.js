@@ -2,6 +2,12 @@ var express = require('express');
 var router = express.Router();
 const check = require('../check/check');
 
+let checkOption = {
+  id: true,
+  name: true,
+  member: true
+}
+
 module.exports = (db) => {
   router.get('/', check.isLoggedIn, function (req, res, next) {
     // Get page project
@@ -44,7 +50,7 @@ module.exports = (db) => {
       const offset = (page - 1) * limit
       const total = totalData.rows[0].total
       const pages = Math.ceil(total / limit);
-      let getData = `SELECT DISTINCT projects.projectid, projects.name, string_agg(users.firstname || ' ' || users.lastname, ', ') as nama FROM projects LEFT JOIN members ON members.projectid = projects.projectid
+      let getData = `SELECT DISTINCT projects.projectid, projects.name, string_agg(users.firstname || ' ' || users.lastname, ', ') as member FROM projects LEFT JOIN members ON members.projectid = projects.projectid
       LEFT JOIN users ON users.userid = members.userid `
 
       if (result.length > 0) {
@@ -59,30 +65,22 @@ module.exports = (db) => {
           error: true,
           message: err
         })
-        let getUser = `SELECT userid, concat(firstname,' ',lastname) as fillname FROM users;`
+        let getUser = `SELECT userid, concat(firstname,' ',lastname) as fullname FROM users;`
 
         db.query(getUser, (err, dataUsers) => {
           if (err) return res.status(500).json({
             error: true,
             message: err
           })
-          let sqlOption = `SELECT optionprojects FROM users WHERE userid = ${user.userid}`
-          db.query(sqlOption, (err, dataOption) => {
-            if (err) return res.status(500).json({
-              error: true,
-              message: err
-            })
-            let option = dataOption.rows[0].optionprojects;
-            res.render('projects/dasrboardProjects', {
-              user,
-              link,
-              page,
-              pages,
-              result: dataProject.rows,
-              users: dataUsers.rows,
-              option
-            });
-          })
+          res.render('projects/dasrboardProjects', {
+            user,
+            link,
+            page,
+            pages,
+            result: dataProject.rows,
+            users: dataUsers.rows,
+            option: checkOption
+          });
         })
       })
     })

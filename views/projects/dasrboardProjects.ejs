@@ -24,10 +24,11 @@
         </div>
         <div class="card-body">
           <form method="GET" id="filterForm">
+            <input type="hidden" name="page" value="1">
             <div class="row">
               <div class="col" style="margin-left: 20px;">
                 <div class="custom-control custom-checkbox mb-3" style="margin-top: 7px;">
-                  <input class="custom-control-input" type="checkbox" id="id" name="checkid">
+                  <input class="custom-control-input" type="checkbox" id="id" name="checkId">
                   <label class="custom-control-label" for="id">
                     ID
                   </label>
@@ -35,14 +36,14 @@
               </div>
               <div class="col-10">
                 <div class="form-group" style="margin-right: 20px;">
-                  <input type="text" class="form-control" id="id" placeholder="ID" name="id">
+                  <input type="text" class="form-control" id="id" placeholder="ID" name="projectId">
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col" style="margin-left: 20px;">
                 <div class="custom-control custom-checkbox mb-3" style="margin-top: 7px;">
-                  <input class="custom-control-input" type="checkbox" id="name" name="checkname">
+                  <input class="custom-control-input" type="checkbox" id="name" name="checkName">
                   <label class="custom-control-label" for="name">
                     Name
                   </label>
@@ -50,7 +51,7 @@
               </div>
               <div class="col-10">
                 <div class="form-group" style="margin-right: 20px;">
-                  <input type="text" class="form-control" id="name" placeholder="Name" name="name">
+                  <input type="text" class="form-control" id="name" placeholder="Name" name="projectName">
                 </div>
               </div>
             </div>
@@ -67,19 +68,17 @@
                 <div class="form-group" style="margin-right: 20px;">
                   <select id="member" class="custom-select custom-select" name="member">
                     <option selected disabled>Choose the member ...</option>
-                    <option value="" disabled>Choose Members</option>
                     <% users.forEach((item, index) => { %>
-                    <option value="<%= item.userid %>"><%= item.fullname %>
-                    </option>
+                    <option value="<%= item.userid %>"><%= item.fullname %></option>
                     <% }) %>
                   </select>
                 </div>
               </div>
 
               <div class="container" style="margin-left: 20px;">
-                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btn-outline-dark">Search</button>
                 <a href="/">
-                  <button type="button" class="btn btn-secondary" id="reset">Reset</button>
+                  <button type="button" class="btn btn-outline-secondary" id="reset">Reset</button>
                 </a>
               </div>
           </form>
@@ -89,41 +88,42 @@
     <!-- option -->
     <div class="card bg-light mb-3" style="font-family: initial;">
       <div class="card-header">
-        <div class="form-check form-check-inline">
-          <h2 style="font-family:Georgia, 'Times New Roman', Times, serif">Option Columns</h2>
+        <form action="/projects/option" method="POST">
+          <div class="form-group row">
+            <h2 class="col-sm-4" style="font-family:Georgia, 'Times New Roman', Times, serif">Option Columns</h2>
 
-          <div class="col" style="margin-left: 70px;">
-            <div class="custom-control custom-checkbox mb-3" style="margin-top: 10px;">
-              <input class="custom-control-input" type="checkbox" id="optionId" name="c_optionId">
-              <label class="custom-control-label" for="optionId">
-                ID
-              </label>
+            <div class="col-sm-2" style="margin-top: 15px;">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="cid" name="checkid" value="true"
+                  <%= option.id ? `checked` : `` %>>
+                <label class="form-check-label" for="cid">
+                  ID
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-2" style="margin-top: 15px;">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="cname" name="checkname" value="true"
+                  <%= option.name ? `checked` : `` %>>
+                <label class="form-check-label" for="cname">
+                  Name
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-2" style="margin-top: 15px;">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="cmember" name="checkmember" value="true"
+                  <%= option.member ? `checked` : `` %>>
+                <label class="form-check-label" for="cmember">
+                  Member
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-2" style="margin-top: 10px;">
+              <button class="btn btn-dark btn-sm" type="submit">Apply</button>
             </div>
           </div>
-
-          <div class="col" style="margin-left: 50px;">
-            <div class="custom-control custom-checkbox mb-3" style="margin-top: 10px;">
-              <input class="custom-control-input" type="checkbox" id="optionName" name="c_optionName">
-              <label class="custom-control-label" for="optionName">
-                Name
-              </label>
-            </div>
-          </div>
-
-          <div class="col" style="margin-left: 50px;">
-            <div class="custom-control custom-checkbox mb-3" style="margin-top: 10px;">
-              <input class="custom-control-input" type="checkbox" id="optionMamber" name="c_optionMamber">
-              <label class="custom-control-label" for="optionMamber">
-                Mamber
-              </label>
-            </div>
-          </div>
-
-          <div class="col" style="margin-left: 50px;">
-            <button class="btn btn-primary">Apply</button>
-          </div>
-
-        </div>
+        </form>
       </div>
 
       <!-- list table -->
@@ -140,20 +140,22 @@
               </tr>
             </thead>
             <tbody>
+              <%result.forEach (item => {%>
               <tr>
-                <td>1</td>
-                <td>Movie App</td>
-                <td>Joko, Iwan</td>
+                <td><%=item.projectid%></td>
+                <td><%=item.name%></td>
+                <td><%=item.member%></td>
                 <td>
-                  <button class="btn btn-success">Edit</button>
-                  <button class="btn btn-danger">Delete</button>
+                  <button class="btn btn-outline-success">Edit</button>
+                  <button class="btn btn-outline-danger">Delete</button>
                 </td>
               </tr>
+              <%})%>
             </tbody>
           </table>
         </div>
         <div class="col">
-          <button class="btn btn-primary">Add Project</button>
+          <button class="btn btn-outline-dark">Add Project</button>
         </div>
       </div>
     </div>
