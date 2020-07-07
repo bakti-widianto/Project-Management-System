@@ -13,7 +13,9 @@ module.exports = (db) => {
     // Get page project
     let link = 'projects'
     let user = req.session.user
-    let getData = `SELECT count(id) AS total from (SELECT DISTINCT projects.projectid as id FROM projects LEFT JOIN members ON members.projectid = projects.projectid LEFT JOIN users ON users.userid = members.userid `
+    let getData = `SELECT count(id) AS total from (SELECT DISTINCT projects.projectid as id FROM projects 
+      LEFT JOIN members ON members.projectid = projects.projectid 
+      LEFT JOIN users ON users.userid = members.userid `
 
     //filter logic
     let result = []
@@ -50,7 +52,9 @@ module.exports = (db) => {
       const offset = (page - 1) * limit
       const total = totalData.rows[0].total
       const pages = Math.ceil(total / limit);
-      let getData = `SELECT DISTINCT projects.projectid, projects.name, string_agg(users.firstname || ' ' || users.lastname, ', ') as member FROM projects LEFT JOIN members ON members.projectid = projects.projectid
+      let getData = `SELECT DISTINCT projects.projectid, projects.name, 
+      string_agg(users.firstname || ' ' || users.lastname, ', ') as member FROM projects 
+      LEFT JOIN members ON members.projectid = projects.projectid
       LEFT JOIN users ON users.userid = members.userid `
 
       if (result.length > 0) {
@@ -72,7 +76,7 @@ module.exports = (db) => {
             error: true,
             message: err
           })
-          res.render('projects/dasrboardProjects', {
+          res.render('projects/index', {
             user,
             link,
             page,
@@ -86,14 +90,28 @@ module.exports = (db) => {
     })
   });
 
-  router.post('/option', (req, res) => {
+  router.post('/option', check.isLoggedIn, (req, res) => {
     checkOption.id = req.body.checkid;
     checkOption.name = req.body.checkname;
     checkOption.member = req.body.checkmember;
     res.redirect('/projects')
   })
 
-
+  //get data for form add projects
+  router.get('/add', (req, res) => {
+    let link = 'projects'
+    let sql = `SELECT DISTINCT (userid), CONCAT(firstname, ' ', lastname) AS fullname FROM users ORDER BY fullname`
+    db.query(sql, (err, data) => {
+      if (err) return res.status(500).json({
+        error: true,
+        message: err
+      })
+      res.render('projects/add', {
+        link,
+        data: data.rows
+      })
+    })
+  })
 
 
 
