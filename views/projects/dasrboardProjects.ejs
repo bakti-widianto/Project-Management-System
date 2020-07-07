@@ -133,18 +133,18 @@
           <table class="table table-striped">
             <thead class="thead-dark">
               <tr>
-                <th>Project ID</th>
-                <th>Project Name</th>
-                <th>Project Members</th>
+                <th <%= option.id ? `` : `hidden` %>>Project ID</th>
+                <th <%= option.name ? `` : `hidden` %>>Project Name</th>
+                <th <%= option.member ? `` : `hidden` %>>Project Members</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               <%result.forEach (item => {%>
               <tr>
-                <td><%=item.projectid%></td>
-                <td><%=item.name%></td>
-                <td><%=item.member%></td>
+                <td <%= option.id ? `` : `hidden` %>><%=item.projectid%></td>
+                <td <%= option.name ? `` : `hidden` %>><%=item.name%></td>
+                <td <%= option.member ? `` : `hidden` %>><%=item.member%></td>
                 <td>
                   <button class="btn btn-outline-success">Edit</button>
                   <button class="btn btn-outline-danger">Delete</button>
