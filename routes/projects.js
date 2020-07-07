@@ -86,6 +86,13 @@ module.exports = (db) => {
     })
   });
 
+  router.post('/option', (req, res) => {
+    checkOption.id = req.body.checkid;
+    checkOption.name = req.body.checkname;
+    checkOption.member = req.body.checkmember;
+    res.redirect('/projects')
+  })
+
 
 
 
