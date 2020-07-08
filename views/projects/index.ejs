@@ -142,11 +142,14 @@
             <tbody>
               <%result.forEach (item => {%>
               <tr>
+
                 <td <%= option.id ? `` : `hidden` %>><%=item.projectid%></td>
                 <td <%= option.name ? `` : `hidden` %>><%=item.name%></td>
                 <td <%= option.member ? `` : `hidden` %>><%=item.member%></td>
                 <td>
-                  <button class="btn btn-outline-success">Edit</button>
+                  <a href="/projects/edit/<%=item.projectid%>">
+                    <button class="btn btn-outline-success">Edit</button>
+                  </a>
                   <button class="btn btn-outline-danger">Delete</button>
                 </td>
               </tr>
