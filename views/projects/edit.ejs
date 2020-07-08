@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Project</title>
+    <!-- <link rel="stylesheet" href=""> -->
+    <% include ../partials/head %>
+</head>
+
+<body>
+    <header>
+        <% include ../partials/navbar %>
+    </header>
+
+    <!-- form filter -->
+    <div class="container" style="margin-top: 20px">
+        <h1 style="font-family:Georgia, 'Times New Roman', Times, serif">Edit Project</h1>
+        <hr>
+        <div class="container" style="margin-top: 20px ">
+            <div class="card bg-light mb-3" style="font-family: initial;">
+                <div class="card-header text-white bg-dark mb-3">
+                    <h2 style="font-family:Georgia, 'Times New Roman', Times, serif">Edit Your New Project !</h2>
+                </div>
+                <div class="card-body">
+
+                    <form action="" method="POST">
+                        <div class="form-group row ">
+                            <label for="projectname" class="col-sm-2 col-form-label">Project Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="projectname" name="projectname"
+                                    value="<%= nameProject.name%>">
+                            </div>
+                        </div>
+                        <fieldset class="form-group">
+                            <div class="row">
+                                <legend class="col-form-label col-sm-2 pt-0">Members</legend>
+                                <div class="col-sm-10">
+                                    <% members.forEach((item, index) => {%>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="members"
+                                            id="members<%=index+1%>" value="<%= item.userid%>">
+
+                                        <label class="form-check-label" for="members<%=index+1%>"
+                                            style="margin-top: 5px;">
+                                            <%=item.fullname%>
+                                        </label>
+                                    </div>
+                                    <%})%>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <br>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-dark">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <% include ../partials/footer %>
+</body>
+
+</html>
