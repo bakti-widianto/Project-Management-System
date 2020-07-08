@@ -40,8 +40,8 @@
                                     <% members.forEach((item, index) => {%>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="members"
-                                            id="members<%=index+1%>" value="<%= item.userid%>">
-
+                                            id="members<%=index+1%>" value="<%= item.userid%>"
+                                            <%= dataMember.includes(item.userid) ? 'checked' : '' %>>
                                         <label class="form-check-label" for="members<%=index+1%>"
                                             style="margin-top: 5px;">
                                             <%=item.fullname%>
