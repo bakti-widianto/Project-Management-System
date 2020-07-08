@@ -29,7 +29,7 @@
                         <div class="form-group row ">
                             <label for="projectname" class="col-sm-2 col-form-label">Project Name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="projectname" name="projectname"
+                                <input type="text" class="form-control" id="projectname" name="editProjectname"
                                     value="<%= nameProject.name%>">
                             </div>
                         </div>
@@ -39,9 +39,10 @@
                                 <div class="col-sm-10">
                                     <% members.forEach((item, index) => {%>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="members"
+                                        <input class="form-check-input" type="checkbox" name="editMembers"
                                             id="members<%=index+1%>" value="<%= item.userid%>"
                                             <%= dataMember.includes(item.userid) ? 'checked' : '' %>>
+
                                         <label class="form-check-label" for="members<%=index+1%>"
                                             style="margin-top: 5px;">
                                             <%=item.fullname%>
