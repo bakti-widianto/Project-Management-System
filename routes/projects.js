@@ -47,6 +47,7 @@ module.exports = (db) => {
         message: err
       })
       //start pagenation logic
+      const url = req.url == '/' ? '/?page=1' : req.url
       const page = req.query.page || 1
       const limit = 3
       const offset = (page - 1) * limit
@@ -56,7 +57,6 @@ module.exports = (db) => {
       string_agg(users.firstname || ' ' || users.lastname, ', ') as member FROM projects 
       LEFT JOIN members ON members.projectid = projects.projectid
       LEFT JOIN users ON users.userid = members.userid `
-
       if (result.length > 0) {
         getData += ` WHERE ${result.join(" AND ")}`
       }
@@ -77,6 +77,7 @@ module.exports = (db) => {
             message: err
           })
           res.render('projects/index', {
+            url,
             user,
             link,
             page,
@@ -113,6 +114,47 @@ module.exports = (db) => {
     })
   })
 
+  //post data project
+  router.post('/add', check.isLoggedIn, (req, res) => {
+    const { projectname, members } = req.body
+    if (projectname && members) {
+      const insertProject = `INSERT INTO projects (name) VALUES ('${projectname}')`
+      db.query(insertProject, (err) => {
+        if (err) return res.status(500).json(err)
+        let selectMaxId = `SELECT MAX (projectid) FROM projects`
+        db.query(selectMaxId, (err, data) => {
+          if (err) return res.status(500).json(err)
+
+          let idMax = data.rows[0].max;
+          let insertMambers = `INSERT INTO members (userid, projectid) VALUES`
+          if (typeof (members) == 'string') {
+            insertMambers += `(${members}, ${idMax})`
+          } else {
+            let member = members.map(item => {
+              return `(${item}, ${idMax})`
+            }).join()
+            insertMambers += `${member}`
+          }
+          db.query(insertMambers, (err) => {
+            if (err) return res.status(500).json({
+              error: true,
+              message: err
+            })
+            res.redirect('/projects')
+          })
+
+
+
+
+        })
+      })
+
+
+
+    } else {
+      return res.redirect('/projects/add')
+    }
+  })
 
 
 
