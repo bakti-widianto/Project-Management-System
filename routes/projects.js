@@ -9,7 +9,7 @@ let checkOption = {
 }
 
 module.exports = (db) => {
-  router.get('/',  function (req, res, next) {
+  router.get('/', function (req, res, next) {
     // Get page project
     let link = 'projects'
     let user = req.session.user
@@ -91,7 +91,7 @@ module.exports = (db) => {
     })
   });
 
-  router.post('/option',  (req, res) => {
+  router.post('/option', (req, res) => {
     checkOption.id = req.body.checkid;
     checkOption.name = req.body.checkname;
     checkOption.member = req.body.checkmember;
@@ -115,7 +115,7 @@ module.exports = (db) => {
   })
 
   //post data project
-  router.post('/add',  (req, res) => {
+  router.post('/add', (req, res) => {
     const { projectname, members } = req.body
     if (projectname && members) {
       const insertProject = `INSERT INTO projects (name) VALUES ('${projectname}')`
@@ -155,9 +155,11 @@ module.exports = (db) => {
     let projectid = req.params.projectid
     let link = 'projects'
     let sql = `SELECT projects.name FROM projects WHERE projects.projectid = ${projectid}`
-
     let sqlMember = `SELECT DISTINCT (userid), CONCAT(firstname, ' ', lastname) AS fullname 
     FROM users ORDER BY fullname`
+    let sqlMembers = `SELECT members.userid, projects.name, projects.projectid FROM members 
+    LEFT JOIN projects ON members.projectid = projects.projectid  WHERE projects.projectid = ${projectid};`
+
 
     db.query(sql, (err, data) => {
       if (err) return res.status(500).json({
@@ -172,13 +174,27 @@ module.exports = (db) => {
           message: err
         })
         let members = member.rows;
-        res.render('projects/edit', {
-          nameProject,
-          members,
-          link,
+        db.query(sqlMembers, (err, dataMembers) => {
+          if (err) return res.status(500).json({
+            error: true,
+            message: err
+          })
+          let dataMember = dataMembers.rows.map(item => item.userid)
+          res.render('projects/edit', {
+            dataMember,
+            nameProject,
+            members,
+            link,
+          })
         })
+
       })
     })
+  })
+
+  //post data form edit
+  router.post('/edit/:projectid', (req, res) => {
+
   })
 
 
