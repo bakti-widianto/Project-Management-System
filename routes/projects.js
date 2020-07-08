@@ -235,18 +235,25 @@ module.exports = (db) => {
     }
   })
 
+  //delete project
+  router.get('/delete/:projectid', (req, res) => {
+    const projectid = req.params.projectid
+    let sqlDeleteproject = `
+    DELETE FROM projects WHERE projectid=${projectid};
+    DELETE FROM members WHERE projectid=${projectid}`
 
+    db.query(sqlDeleteproject, (err) => {
+      if (err) return res.status(500).json({
+        error: true,
+        message: err
+      })
+      res.redirect('/projects')
+    })
+  })
 
-
-
-
-
-
-
-
-  // router.get('/:projectid/overview', check.isLoggedIn, function (req, res, next) {
-
-  // });
+  router.get('/:projectid/overview', function (req, res, next) {
+    res.send('masuk overview')
+  });
 
   // router.get('/:projectid/activity', check.isLoggedIn, function (req, res, next) {
 
