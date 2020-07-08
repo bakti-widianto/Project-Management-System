@@ -9,7 +9,7 @@ let checkOption = {
 }
 
 module.exports = (db) => {
-  router.get('/', check.isLoggedIn, function (req, res, next) {
+  router.get('/',  function (req, res, next) {
     // Get page project
     let link = 'projects'
     let user = req.session.user
@@ -91,7 +91,7 @@ module.exports = (db) => {
     })
   });
 
-  router.post('/option', check.isLoggedIn, (req, res) => {
+  router.post('/option',  (req, res) => {
     checkOption.id = req.body.checkid;
     checkOption.name = req.body.checkname;
     checkOption.member = req.body.checkmember;
@@ -115,7 +115,7 @@ module.exports = (db) => {
   })
 
   //post data project
-  router.post('/add', check.isLoggedIn, (req, res) => {
+  router.post('/add',  (req, res) => {
     const { projectname, members } = req.body
     if (projectname && members) {
       const insertProject = `INSERT INTO projects (name) VALUES ('${projectname}')`
@@ -142,20 +142,44 @@ module.exports = (db) => {
             })
             res.redirect('/projects')
           })
-
-
-
-
         })
       })
-
-
-
     } else {
       return res.redirect('/projects/add')
     }
   })
 
+
+  //get data form edit
+  router.get('/edit/:projectid', (req, res) => {
+    let projectid = req.params.projectid
+    let link = 'projects'
+    let sql = `SELECT projects.name FROM projects WHERE projects.projectid = ${projectid}`
+
+    let sqlMember = `SELECT DISTINCT (userid), CONCAT(firstname, ' ', lastname) AS fullname 
+    FROM users ORDER BY fullname`
+
+    db.query(sql, (err, data) => {
+      if (err) return res.status(500).json({
+        error: true,
+        message: err
+      })
+      let nameProject = data.rows[0]
+
+      db.query(sqlMember, (err, member) => {
+        if (err) return res.status(500).json({
+          error: true,
+          message: err
+        })
+        let members = member.rows;
+        res.render('projects/edit', {
+          nameProject,
+          members,
+          link,
+        })
+      })
+    })
+  })
 
 
 
