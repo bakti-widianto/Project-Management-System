@@ -143,14 +143,21 @@
               <%result.forEach (item => {%>
               <tr>
 
-                <td <%= option.id ? `` : `hidden` %>><%=item.projectid%></td>
+                <td <%= option.id ? `` : `hidden` %>>
+                  <a class="btn btn-outline-secondary" href="/projects/<%=item.projectid%>/overview">
+                    <%=item.projectid%>
+                  </a>
+                </td>
                 <td <%= option.name ? `` : `hidden` %>><%=item.name%></td>
                 <td <%= option.member ? `` : `hidden` %>><%=item.member%></td>
                 <td>
                   <a href="/projects/edit/<%=item.projectid%>">
                     <button class="btn btn-outline-success">Edit</button>
                   </a>
-                  <button class="btn btn-outline-danger">Delete</button>
+                  <a href="/projects/delete/<%=item.projectid%>">
+                    <button class="btn btn-outline-danger"
+                      onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
+                  </a>
                 </td>
               </tr>
               <%})%>
