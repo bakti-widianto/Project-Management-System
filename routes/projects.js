@@ -127,7 +127,7 @@ module.exports = (db) => {
 
           let idMax = data.rows[0].max;
           let insertMambers = `INSERT INTO members (userid, projectid) VALUES`
-          if (typeof (members) == 'string') {
+          if (typeof members == 'string') {
             insertMambers += `(${members}, ${idMax})`
           } else {
             let member = members.map(item => {
@@ -194,7 +194,45 @@ module.exports = (db) => {
 
   //post data form edit
   router.post('/edit/:projectid', (req, res) => {
+    let projectid = req.params.projectid
+    const { editProjectname, editMembers } = req.body
+    let sqlProjectname = `UPDATE projects SET name = '${editProjectname}' WHERE projectid = ${projectid}`
 
+    if (projectid && editProjectname && editMembers) {
+      db.query(sqlProjectname, (err) => {
+        if (err) return res.status(500).json({
+          error: true,
+          message: err
+        })
+        let sqlDeletemember = `DELETE FROM members WHERE projectid = ${projectid}`
+        db.query(sqlDeletemember, (err) => {
+          if (err) return res.status(500).json({
+            error: true,
+            message: err
+          })
+          let result = [];
+          if (typeof editMembers == 'string') {
+            result.push(`(${editMembers},${projectid})`);
+          } else {
+            for (let i = 0; i < editMembers.length; i++) {
+              result.push(`(${editMembers[i]},${projectid})`)
+            }
+          }
+
+          let sqlUpdate = `INSERT INTO members (userid, projectid) VALUES ${result.join(",")}`
+          db.query(sqlUpdate, (err) => {
+            if (err) return res.status(500).json({
+              error: true,
+              message: err
+            })
+            res.redirect('/projects')
+          })
+
+        })
+      })
+    } else {
+      res.redirect(`/projects/edit/${projectid}`)
+    }
   })
 
 
