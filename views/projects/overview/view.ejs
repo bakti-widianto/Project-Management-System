@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href=""> -->
+    <% include ../../partials/head %>
+    <style>
+        body {
+            margin-top: 60px;
+            margin-bottom: 80px;
+        }
+    </style>
+    <link rel="stylesheet" href="/stylesheets/sidebar.css">
+</head>
+
+<body>
+    <header>
+        <% include ../../partials/navbar %>
+    </header>
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <%_ include ../../partials/sidebar -%>
+
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                <h1 style="text-align: center;">Overview</h1>
+                <h4 style="text-align: center;"></h4>
+                <hr>
+
+                <div class="row">
+                    <div class="col-10 offset-1">
+                        <div class="card issue-tracker">
+                            <div class="card-header text-white bg-dark">
+                                <h5>Issue Tracker</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="card">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item border-warning">
+                                            <div class="row">
+                                                <h6 class="col" style="text-align: left;">Bug</h6>
+                                                <div style="text-align: right;">
+                                                    <h5><span class="badge badge-warning" style="text-align: right;">
+                                                            0 Open /1</span>
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <h6 class="col" style="text-align: left;">Feature</h6>
+                                                <div style="text-align: right;">
+                                                    <h5><span class="badge badge-primary" style="text-align: right;">
+                                                            2 Open /
+                                                            2</span></h5>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <h6 class="col" style="text-align: left;">Support</h6>
+                                                <div style="text-align: right;">
+                                                    <h5><span class="badge badge-info" style="text-align: right;">
+                                                            0 Open /
+                                                            2</span></h5>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                <div class="row">
+                    <div class="col-10 offset-1">
+                        <div class="card issue-tracker">
+                            <div class="card-header text-white bg-dark">
+                                <h5>Members</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="card">
+                                    <ul class="list-group list-group-flush">
+
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <h6 class="col" style="text-align: left;">Bakti Widyanto</h6>
+                                                <div style="text-align: right;">
+                                                    <span class="badge badge-secondary"
+                                                        style="text-align: right;">SOFTWARE DEVELOPER</span>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <h6 class="col" style="text-align: left;">duma dong</h6>
+                                                <div style="text-align: right;">
+                                                    <span class="badge badge-secondary"
+                                                        style="text-align: right;">QUALITY ASSURANCE</span>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <h6 class="col" style="text-align: left;">Lebah Gak Ganteng</h6>
+                                                <div style="text-align: right;">
+                                                    <span class="badge badge-secondary"
+                                                        style="text-align: right;">SOFTWARE DEVELOPER</span>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <h6 class="col" style="text-align: left;">wawan aja</h6>
+                                                <div style="text-align: right;">
+                                                    <span class="badge badge-secondary"
+                                                        style="text-align: right;">MANAGER</span>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <h6 class="col" style="text-align: left;">Wawan Purwanto</h6>
+                                                <div style="text-align: right;">
+                                                    <span class="badge badge-secondary"
+                                                        style="text-align: right;">QUALITY ASSURANCE</span>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <% include ../../partials/footer %>
+
+</body>
+
+</html>
