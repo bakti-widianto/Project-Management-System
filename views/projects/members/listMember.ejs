@@ -82,16 +82,16 @@
                                         <div class="form-group" style="margin-right: 20px;">
                                             <select id="member" class="custom-select custom-select" name="position">
                                                 <option selected disabled>Choose the Position ...</option>
-
-                                                <option value=""></option>
-
+                                                <option value="Quality Assurance">Quality Assurance</option>
+                                                <option value="Manager">Manager</option>
+                                                <option value="Software Developer">Software Developer</option>
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="container" style="margin-left: 20px;">
                                         <button type="submit" class="btn btn-outline-dark">Search</button>
-                                        <a href="/">
+                                        <a href="">
                                             <button type="button" class="btn btn-outline-secondary"
                                                 id="reset">Reset</button>
                                         </a>
@@ -103,7 +103,7 @@
                 <!-- option -->
                 <div class="card bg-light mb-3" style="font-family: initial;">
                     <div class="card-header">
-                        <form action="/projects/option" method="POST">
+                        <form action="/projects/<%=projectid%>/members/option" method="POST">
                             <div class="form-group row">
                                 <h2 class="col-sm-4" style="font-family:Georgia, 'Times New Roman', Times, serif">Option
                                     Columns</h2>
@@ -111,7 +111,7 @@
                                 <div class="col-sm-2" style="margin-top: 15px;">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="checkbox" id="cid" name="checkid"
-                                            value="true">
+                                            value="true" <%= option.id ? `checked` : `` %>>
                                         <label class="form-check-label" for="cid">
                                             ID
                                         </label>
@@ -120,7 +120,7 @@
                                 <div class="col-sm-2" style="margin-top: 15px;">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="checkbox" id="cname" name="checkname"
-                                            value="true">
+                                            value="true" <%= option.name ? `checked` : `` %>>
                                         <label class="form-check-label" for="cname">
                                             Name
                                         </label>
@@ -129,7 +129,7 @@
                                 <div class="col-sm-2" style="margin-top: 15px;">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="checkbox" id="cmember"
-                                            name="checkposition" value="true">
+                                            name="checkposition" value="true" <%= option.position ? `checked` : `` %>>
                                         <label class="form-check-label" for="cmember">
                                             Position
                                         </label>
@@ -148,23 +148,19 @@
                             <table class="table table-striped">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th>#</th>
-                                        <th>Name</th>
-                                        <th>Position</th>
+                                        <th <%= option.id ? `` : `hidden` %>>#</th>
+                                        <th <%= option.name ? `` : `hidden` %>>Name</th>
+                                        <th <%= option.position ? `` : `hidden` %>>Position</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
+                                    <%members.forEach(item =>{%>
                                     <tr>
-
-                                        <td>
-                                            <a class="btn btn-outline-secondary" href="">
-
-                                            </a>
-                                        </td>
-                                        <td></td>
-                                        <td></td>
+                                        <td <%= option.id ? `` : `hidden` %>><%=item.id%></td>
+                                        <td <%= option.name ? `` : `hidden` %>><%=item.fullname%></td>
+                                        <td <%= option.position ? `` : `hidden` %>>
+                                            <%=item.role ? item.role.toUpperCase() : 'NOT ASSIGNED'%></td>
                                         <td>
                                             <a href="">
                                                 <button class="btn btn-outline-success">Edit</button>
@@ -175,26 +171,45 @@
                                             </a>
                                         </td>
                                     </tr>
-
+                                    <%})%>
                                 </tbody>
                             </table>
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item <%= page <= 1 ? 'disabled' : '' %>">
+                                        <a class="page-link"
+                                            href="/projects<%= urlpage.replace(`page=${parseInt(page)}`, `page=${(parseInt(page) - 1)}`) %>"
+                                            aria-label="Previous">
+                                            Previous
+                                        </a>
+                                    </li>
+                                    <% for (let i = 1; i <= pages; i++) { %>
+                                    <li class="page-item <%= page == i ? 'active' : '' %>">
+                                        <a class="page-link"
+                                            href="/projects<%= link.replace(`page=${parseInt(page)}`, `page=${i}`) %>">
+                                            <%= i %>
+                                        </a>
+                                    </li>
+                                    <% } %>
+                                    <li class="page-item <%= page >= pages ? 'disabled' : '' %>">
+                                        <a class="page-link"
+                                            href="/projects<%= urlpage.replace(`page=${parseInt(page)}`, `page=${(parseInt(page) + 1)}`) %>"
+                                            aria-label="Next">
+                                            Next
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <div class="col-center">
+                                <a href="">
+                                    <button class="btn btn-outline-dark">Add Member</button>
+                                </a>
+                            </div>
                         </div>
+
                     </div>
 
-
-
-                    <!-- pagination -->
                 </div>
-
-
-
-
-
-
-
-
-
-
             </main>
         </div>
     </div>
