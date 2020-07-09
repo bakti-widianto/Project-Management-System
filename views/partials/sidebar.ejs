@@ -2,8 +2,7 @@
     <div class="sidebar-sticky">
         <ul class="nav flex-column nav-pills" style="font-family: initial;">
             <li class="nav-item">
-                <a class="nav-link <%= url == 'overview' ? 'active' : '' %>"
-                    href="/projects/<%=data.projectid%>/overview/">
+                <a class="nav-link <%= url == 'overview' ? 'active' : '' %>" href="/projects/<%=projectid%>/overview/">
                     Overview
                 </a>
             </li>
@@ -13,7 +12,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="/projects/members/">
+                <a class="nav-link <%= url == 'members' ? 'active' : '' %>" href="/projects/<%=projectid%>/members/">
                     Members
                 </a>
             </li>
