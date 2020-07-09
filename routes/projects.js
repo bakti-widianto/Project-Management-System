@@ -309,6 +309,7 @@ module.exports = (db) => {
             }
           })
           res.render('projects/overview/view', {
+            projectid,
             link,
             url,
             data: dataProject.rows[0],
@@ -325,6 +326,19 @@ module.exports = (db) => {
     })
   });
 
+  //=================CRUD MEMBER=================
+  // get data for Member list
+  router.get('/:projectid/members', function (req, res, next) {
+    let projectid = req.params.projectid
+    let link = 'projects'
+    let url = 'members'
+
+    res.render('projects/members/listMember', {
+      projectid,
+      link,
+      url
+    })
+  });
 
 
 
@@ -348,9 +362,6 @@ module.exports = (db) => {
 
   // });
 
-  // router.get('/:projectid/member', check.isLoggedIn, function (req, res, next) {
-
-  // });
 
   // router.get('/:projectid/member', check.isLoggedIn, function (req, res, next) {
 
