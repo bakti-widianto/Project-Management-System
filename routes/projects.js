@@ -252,7 +252,8 @@ module.exports = (db) => {
   })
 
   router.get('/:projectid/overview', function (req, res, next) {
-    res.send('masuk overview')
+    let link = 'projects'
+    res.render('projects/overview/view', {link})
   });
 
   // router.get('/:projectid/activity', check.isLoggedIn, function (req, res, next) {
