@@ -251,10 +251,98 @@ module.exports = (db) => {
     })
   })
 
+
+  //==============================OVERVIEW============================
+  //get data for card overview
   router.get('/:projectid/overview', function (req, res, next) {
     let link = 'projects'
-    res.render('projects/overview/view', {link})
+    let url = 'overview'
+    let projectid = req.params.projectid
+    let sqlProject = `SELECT * FROM projects WHERE projectid = ${projectid}`
+    db.query(sqlProject, (err, dataProject) => {
+      if (err) return res.status(500).json({
+        error: true,
+        message: err
+      })
+      let sqlMember = `SELECT users.firstname, users.lastname, members.role FROM members
+      LEFT JOIN users ON members.userid = users.userid WHERE members.projectid = ${projectid}`
+      db.query(sqlMember, (err, dataMamber) => {
+        if (err) return res.status(500).json({
+          error: true,
+          message: err
+        })
+        let sqlIssues = `SELECT tracker, status FROM issues WHERE projectid = ${projectid}`
+        db.query(sqlIssues, (err, dataIssues) => {
+          if (err) return res.status(500).json({
+            error: true,
+            message: err
+          })
+          let bugOpen = 0;
+          let bugTotal = 0;
+          let featureOpen = 0;
+          let featureTotal = 0;
+          let supportOpen = 0;
+          let supportTotal = 0;
+
+          dataIssues.rows.forEach(item => {
+            if (item.tracker == 'bug' && item.status !== "Closed") {
+              bugOpen += 1
+            }
+            if (item.tracker == 'bug') {
+              bugTotal += 1
+            }
+          })
+          dataIssues.rows.forEach(item => {
+            if (item.tracker == 'feature' && item.status !== "Closed") {
+              featureOpen += 1
+            }
+            if (item.tracker == 'feature') {
+              featureTotal += 1
+            }
+          })
+          dataIssues.rows.forEach(item => {
+            if (item.tracker == 'support' && item.status !== "Closed") {
+              supportOpen += 1
+            }
+            if (item.tracker == 'support') {
+              supportTotal += 1
+            }
+          })
+          res.render('projects/overview/view', {
+            link,
+            url,
+            data: dataProject.rows[0],
+            mambers: dataMamber.rows,
+            bugOpen,
+            bugTotal,
+            featureOpen,
+            featureTotal,
+            supportOpen,
+            supportTotal
+          })
+        })
+      })
+    })
   });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   // router.get('/:projectid/activity', check.isLoggedIn, function (req, res, next) {
 

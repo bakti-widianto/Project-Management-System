@@ -29,7 +29,10 @@
 
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
                 <h1 style="text-align: center;">Overview</h1>
-                <h4 style="text-align: center;"></h4>
+                <h4 style="text-align: center;">
+
+                    <small class="text-muted">#<%= data.projectid %> <%= data.name %></small>
+                </h4>
                 <hr>
 
                 <div class="row">
@@ -41,12 +44,13 @@
                             <div class="card-body">
                                 <div class="card">
                                     <ul class="list-group list-group-flush">
-                                        <li class="list-group-item border-warning">
+                                        <li class="list-group-item ">
                                             <div class="row">
                                                 <h6 class="col" style="text-align: left;">Bug</h6>
                                                 <div style="text-align: right;">
                                                     <h5><span class="badge badge-warning" style="text-align: right;">
-                                                            0 Open /1</span>
+                                                            <%=bugOpen%> Open/<%=bugTotal%>
+                                                        </span>
                                                     </h5>
                                                 </div>
                                             </div>
@@ -56,8 +60,9 @@
                                                 <h6 class="col" style="text-align: left;">Feature</h6>
                                                 <div style="text-align: right;">
                                                     <h5><span class="badge badge-primary" style="text-align: right;">
-                                                            2 Open /
-                                                            2</span></h5>
+                                                            <%=featureOpen%> Open/<%=featureTotal%>
+                                                        </span>
+                                                    </h5>
                                                 </div>
                                             </div>
                                         </li>
@@ -66,8 +71,9 @@
                                                 <h6 class="col" style="text-align: left;">Support</h6>
                                                 <div style="text-align: right;">
                                                     <h5><span class="badge badge-info" style="text-align: right;">
-                                                            0 Open /
-                                                            2</span></h5>
+                                                            <%=supportOpen%> Open/<%=supportTotal%>
+                                                        </span>
+                                                    </h5>
                                                 </div>
                                             </div>
                                         </li>
@@ -89,56 +95,19 @@
                             <div class="card-body">
                                 <div class="card">
                                     <ul class="list-group list-group-flush">
-
+                                        <%mambers.forEach((item)=>{%>
                                         <li class="list-group-item">
                                             <div class="row">
-                                                <h6 class="col" style="text-align: left;">Bakti Widyanto</h6>
+                                                <h6 class="col" style="text-align: left;"><%=item.firstname%>
+                                                    <%=item.lastname%></h6>
                                                 <div style="text-align: right;">
                                                     <span class="badge badge-secondary"
-                                                        style="text-align: right;">SOFTWARE DEVELOPER</span>
+                                                        style="text-align: right;"><%=item.role ? item.role.toUpperCase() : 'NOT ASSIGNED'%></span>
                                                 </div>
                                             </div>
                                         </li>
+                                        <%})%>
 
-                                        <li class="list-group-item">
-                                            <div class="row">
-                                                <h6 class="col" style="text-align: left;">duma dong</h6>
-                                                <div style="text-align: right;">
-                                                    <span class="badge badge-secondary"
-                                                        style="text-align: right;">QUALITY ASSURANCE</span>
-                                                </div>
-                                            </div>
-                                        </li>
-
-                                        <li class="list-group-item">
-                                            <div class="row">
-                                                <h6 class="col" style="text-align: left;">Lebah Gak Ganteng</h6>
-                                                <div style="text-align: right;">
-                                                    <span class="badge badge-secondary"
-                                                        style="text-align: right;">SOFTWARE DEVELOPER</span>
-                                                </div>
-                                            </div>
-                                        </li>
-
-                                        <li class="list-group-item">
-                                            <div class="row">
-                                                <h6 class="col" style="text-align: left;">wawan aja</h6>
-                                                <div style="text-align: right;">
-                                                    <span class="badge badge-secondary"
-                                                        style="text-align: right;">MANAGER</span>
-                                                </div>
-                                            </div>
-                                        </li>
-
-                                        <li class="list-group-item">
-                                            <div class="row">
-                                                <h6 class="col" style="text-align: left;">Wawan Purwanto</h6>
-                                                <div style="text-align: right;">
-                                                    <span class="badge badge-secondary"
-                                                        style="text-align: right;">QUALITY ASSURANCE</span>
-                                                </div>
-                                            </div>
-                                        </li>
 
                                     </ul>
                                 </div>
