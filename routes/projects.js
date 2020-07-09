@@ -1,11 +1,18 @@
 var express = require('express');
 var router = express.Router();
 const check = require('../check/check');
+const { query } = require('express');
 
 let checkOption = {
   id: true,
   name: true,
   member: true
+}
+
+let optionMember = {
+  id: true,
+  name: true,
+  position: true
 }
 
 module.exports = (db) => {
@@ -332,14 +339,87 @@ module.exports = (db) => {
     let projectid = req.params.projectid
     let link = 'projects'
     let url = 'members'
+    let sqlFilter = `SELECT COUNT(member) AS total FROM(SELECT members.userid FROM members JOIN users 
+      ON members.userid = users.userid WHERE members.projectid = ${projectid}`;
+    //search logic
+    let result = []
 
-    res.render('projects/members/listMember', {
-      projectid,
-      link,
-      url
+    if (req.query.checkId && req.query.memberId) {
+      result.push(`members.id=${req.query.memberId}`)
+    }
+
+    if (req.query.checkName && req.query.memberName) {
+      result.push(`CONCAT(users.firstname,' ',users.lastname) LIKE '%${req.query.memberName}%'`)
+    }
+
+    if (req.query.checkPosition && req.query.position) {
+      result.push(`members.role = '${req.query.position}'`)
+    }
+
+    if (result.length > 0) {
+      sqlFilter += ` AND ${result.join(' AND ')}`
+    }
+    sqlFilter += `) AS member`
+    //end search logic
+    db.query(sqlFilter, (err, totalData) => {
+      if (err) return res.status(500).json({
+        error: true,
+        message: err
+      })
+      //start pegenation logic
+      const urlpage = (req.url == `/${projectid}/members`) ? `/${projectid}/members/?page=1` : req.url;
+      const page = req.query.page || 1;
+      const limit = 3;
+      const offset = (page - 1) * limit;
+      const total = totalData.rows[0].total;
+      const pages = Math.ceil(total / limit);
+      let sqlMember = `SELECT users.userid, projects.name, projects.projectid, members.id, members.role, 
+      CONCAT(users.firstname,' ',users.lastname) AS fullname FROM members
+      LEFT JOIN projects ON projects.projectid = members.projectid
+      LEFT JOIN users ON users.userid = members.userid WHERE members.projectid = ${projectid}`
+
+      if (result.length > 0) {
+        sqlMember += ` AND ${result.join(' AND ')}`
+      }
+      sqlMember += ` ORDER BY members.id ASC`
+      sqlMember += ` LIMIT ${limit} OFFSET ${offset}`
+      //end pegenation logic
+
+      db.query(sqlMember, (err, dataMamber) => {
+        if (err) return res.status(500).json({
+          error: true,
+          message: err
+        })
+        let sqlProject = `SELECT * FROM projects WHERE projectid = ${projectid}`
+        db.query(sqlProject, (err, dataProject) => {
+          if (err) return res.status(500).json({
+            error: true,
+            message: err
+          })
+          res.render('projects/members/listMember', {
+            projectid,
+            link,
+            url,
+            pages,
+            page,
+            urlpage,
+            project: dataProject.rows[0],
+            members: dataMamber.rows,
+            option: optionMember
+          })
+        })
+      })
     })
   });
 
+  router.post('/:projectid/members/option', (req, res) => {
+    let projectid = req.params.projectid
+    console.log(req.body)
+    optionMember.id = req.body.checkid;
+    optionMember.name = req.body.checkname;
+    optionMember.position = req.body.checkposition;
+    res.redirect(`/projects/${projectid}/members`)
+  })
 
 
 
