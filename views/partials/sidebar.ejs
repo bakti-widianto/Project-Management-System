@@ -1,8 +1,9 @@
 <nav class="col-md-2 d-none d-md-block navbar-light bg-light sidebar shadow-md mt-2">
-    <div class="sidebar-sticky" >
+    <div class="sidebar-sticky">
         <ul class="nav flex-column nav-pills" style="font-family: initial;">
             <li class="nav-item">
-                <a class="nav-link active" href="/projects/overview/">
+                <a class="nav-link <%= url == 'overview' ? 'active' : '' %>"
+                    href="/projects/<%=data.projectid%>/overview/">
                     Overview
                 </a>
             </li>
