@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Members</title>
+    <!-- <link rel="stylesheet" href=""> -->
+    <% include ../../partials/head %>
+    <style>
+        body {
+            margin-top: 60px;
+            margin-bottom: 80px;
+        }
+    </style>
+    <link rel="stylesheet" href="/stylesheets/sidebar.css">
+</head>
+
+<body>
+    <header>
+        <% include ../../partials/navbar %>
+    </header>
+
+    <div class="container-fluid" style="margin-top: -15px;">
+        <div class="row">
+            <% include ../../partials/sidebar %>
+
+            <!-- form filter -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                <div class="container" style="margin-top: 20px">
+                    <h1 style="text-align: center;">Add Member</h1>
+                    <h4 style="text-align: center;">
+                        <small class="text-muted">#<%=projectid%> <%=project.name%></small>
+                    </h4>
+                    <hr>
+                    <div class="container" style="margin-top: 20px ">
+                        <div class="card bg-light mb-3" style="font-family: initial;">
+                            <div class="card-header text-white bg-dark mb-3">
+                                <h2 style="font-family:Georgia, 'Times New Roman', Times, serif">
+                                    Add new Member !
+                                </h2>
+                            </div>
+                            <div class="card-body">
+
+                                <form method="POST">
+
+                                    <div class="form-group row">
+                                        <label for="inputBoolean" class="col-sm-2 col-form-label">
+                                            Members</label>
+                                        <div class="col-sm-10">
+                                            <select class="custom-select" name="inputmember" required="">
+
+                                                <option>Choose the Member ...</option>
+                                                <% members.forEach(item=>{%>
+                                                <option value="<%=item.userid%>"><%=item.fullname%></option>
+                                                <%})%>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <fieldset class="form-group">
+                                        <div class="row">
+                                            <legend class="col-form-label col-sm-2 pt-0">Position</legend>
+                                            <div class="col-sm-10">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="inputposition"
+                                                        id="gridRadios1" value="Manager">
+                                                    <label class="form-check-label" for="gridRadios1">
+                                                        Manager
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="inputposition"
+                                                        id="gridRadios2" value="Software Developer">
+                                                    <label class="form-check-label" for="gridRadios2">
+                                                        Software Developer
+                                                    </label>
+                                                </div>
+                                                <div class="form-check disabled">
+                                                    <input class="form-check-input" type="radio" name="inputposition"
+                                                        id="gridRadios3" value="Quality Assurance">
+                                                    <label class="form-check-label" for="gridRadios3">
+                                                        Quality Assurance
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                    <div class="form-group row">
+                                        <div class="col-sm-10">
+                                            <button type="submit" class="btn btn-outline-dark">Add</button>
+                                            <a class="btn btn-outline-secondary" href="/projects/<%=projectid%>/members"
+                                                role="button">Back</a>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <% include ../../partials/footer %>
+</body>
+
+</html>

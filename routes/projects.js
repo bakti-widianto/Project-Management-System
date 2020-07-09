@@ -413,7 +413,7 @@ module.exports = (db) => {
   });
 
   router.post('/:projectid/members/option', (req, res) => {
-    let projectid = req.params.projectid
+    const projectid = req.params.projectid
     console.log(req.body)
     optionMember.id = req.body.checkid;
     optionMember.name = req.body.checkname;
@@ -421,6 +421,51 @@ module.exports = (db) => {
     res.redirect(`/projects/${projectid}/members`)
   })
 
+  //get free members for project
+  router.get('/:projectid/members/add', function (req, res, next) {
+    const projectid = req.params.projectid
+    const link = 'projects'
+    const url = 'members'
+    let sqlProject = `SELECT * FROM projects WHERE projectid = ${projectid}`
+    db.query(sqlProject, (err, dataProject) => {
+      if (err) return res.status(500).json({
+        error: true,
+        message: err
+      })
+      let sqlMember = `SELECT userid, CONCAT(firstname,' ',lastname) AS fullname FROM users
+      WHERE userid NOT IN (SELECT userid FROM members WHERE projectid = ${projectid})`
+
+      db.query(sqlMember, (err, dataMember) => {
+        if (err) return res.status(500).json({
+          error: true,
+          message: err
+        })
+        res.render('projects/members/add', {
+          members: dataMember.rows,
+          project: dataProject.rows[0],
+          projectid,
+          link,
+          url
+        })
+      })
+    })
+  });
+
+  //post new mamber project
+  router.post('/:projectid/members/add', function (req, res, next) {
+    const projectid = req.params.projectid
+    const { inputmember, inputposition } = req.body
+    let sqlAdd = `INSERT INTO members(userid, role, projectid) VALUES ($1,$2,$3)`
+    let values = [inputmember, inputposition, projectid]
+
+    db.query(sqlAdd, values, (err) => {
+      if (err) return res.status(500).json({
+        error: true,
+        message: err
+      })
+      res.redirect(`/projects/${projectid}/members`)
+    })
+  });
 
 
 
@@ -443,13 +488,9 @@ module.exports = (db) => {
   // });
 
 
-  // router.get('/:projectid/member', check.isLoggedIn, function (req, res, next) {
 
-  // });
 
-  // router.post('/:projectid/member', check.isLoggedIn, function (req, res, next) {
 
-  // });
 
   // router.get('/:projectid/member/:id', check.isLoggedIn, function (req, res, next) {
 
