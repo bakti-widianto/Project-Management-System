@@ -467,6 +467,10 @@ module.exports = (db) => {
     })
   });
 
+  //router get for form edit members
+  router.get('/:projectid/member/:id', function (req, res, next) {
+
+  });
 
 
 
@@ -492,9 +496,7 @@ module.exports = (db) => {
 
 
 
-  // router.get('/:projectid/member/:id', check.isLoggedIn, function (req, res, next) {
 
-  // });
 
   // router.post('/:projectid/member/:id', check.isLoggedIn, function (req, res, next) {
 
