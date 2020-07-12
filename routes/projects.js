@@ -467,7 +467,7 @@ module.exports = (db) => {
     })
   });
 
-  //router get for form edit members
+  //get for form edit members
   router.get('/:projectid/members/:id', function (req, res, next) {
     let projectid = req.params.projectid;
     let id = req.params.id
@@ -498,6 +498,37 @@ module.exports = (db) => {
     })
   });
 
+  //edit position member
+  router.post('/:projectid/members/:id', function (req, res, next) {
+    let projectid = req.params.projectid
+    let id = req.params.id;
+    let position = req.body.inputposition;
+    let sql = `UPDATE members SET role='${position}' WHERE id=${id}`
+
+    db.query(sql, (err) => {
+      if (err) return res.status(500).json({
+        error: true,
+        message: err
+      })
+      res.redirect(`/projects/${projectid}/members`)
+    })
+
+  });
+
+  //delete member project
+  router.get('/:projectid/members/:id/delete', function (req, res, next) {
+    let projectid = req.params.projectid
+    let id = req.params.id;
+    let sql = `DELETE FROM members WHERE projectid=${projectid} AND id=${id}`
+
+    db.query(sql, (err) => {
+      if (err) return res.status(500).json({
+        error: true,
+        message: err
+      })
+      res.redirect(`/projects/${projectid}/members`)
+    })
+  })
 
 
 
@@ -524,9 +555,7 @@ module.exports = (db) => {
 
 
 
-  // router.post('/:projectid/member/:id', check.isLoggedIn, function (req, res, next) {
 
-  // });
 
 
 
