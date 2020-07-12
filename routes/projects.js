@@ -468,8 +468,34 @@ module.exports = (db) => {
   });
 
   //router get for form edit members
-  router.get('/:projectid/member/:id', function (req, res, next) {
+  router.get('/:projectid/members/:id', function (req, res, next) {
+    let projectid = req.params.projectid;
+    let id = req.params.id
+    let sqlMember = `SELECT members.id, CONCAT(users.firstname,' ',users.lastname) AS fullname, members.role FROM members
+    LEFT JOIN users ON members.userid = users.userid WHERE projectid=${projectid} AND id=${id}`
 
+    db.query(sqlMember, (err, dataMember) => {
+      if (err) return res.status(500).json({
+        error: true,
+        message: err
+      })
+      let member = dataMember.rows[0]
+      let sqlProject = `SELECT * FROM projects WHERE projectid= ${projectid}`
+      db.query(sqlProject, (err, dataProject) => {
+        if (err) return res.status(500).json({
+          error: true,
+          message: err
+        })
+        let project = dataProject.rows[0]
+        res.render('projects/members/edit', {
+          projectid,
+          link: 'projects',
+          url: 'members',
+          member,
+          project
+        })
+      })
+    })
   });
 
 
