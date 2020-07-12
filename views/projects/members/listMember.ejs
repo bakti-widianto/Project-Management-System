@@ -165,7 +165,7 @@
                                         <td <%= option.position ? `` : `hidden` %>>
                                             <%=item.role ? item.role.toUpperCase() : 'NOT ASSIGNED'%></td>
                                         <td>
-                                            <a href="">
+                                            <a href="/projects/<%=projectid%>/members/<%=item.id%>">
                                                 <button class="btn btn-outline-success">Edit</button>
                                             </a>
                                             <a href="">
