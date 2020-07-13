@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const check = require('../check/check');
 const { query } = require('express');
+var moment = require('moment');
 
 let checkOption = {
   id: true,
@@ -421,7 +422,7 @@ module.exports = (db) => {
     res.redirect(`/projects/${projectid}/members`)
   })
 
-  //get free members for project
+  //get form members 
   router.get('/:projectid/members/add', function (req, res, next) {
     const projectid = req.params.projectid
     const link = 'projects'
@@ -530,8 +531,94 @@ module.exports = (db) => {
     })
   })
 
+  //================================CRUD ISSUES==========================
+  //List issues
+  router.get('/:projectid/issues', function (req, res, next) {
+    let projectid = req.params.projectid
+    const link = 'projects'
+    const url = 'issues'
+    let sqlProject = `SELECT * FROM projects WHERE projectid=${projectid}`
+
+    let { checkId, issuesId, checkSubject, issuesSubject, checkTracker, issuesTracker } = req.query;
+    let query = [];
+    let search = ""
+
+    if (checkId && issuesId) {
+      query.push(`issues.issueid=${issuesId}`)
+    }
+    if (checkSubject && issuesSubject) {
+      query.push(`issues.subject ILIKE '%${issuesSubject}%'`)
+    }
+    if (checkTracker && issuesTracker) {
+      query.push(`issues.tracker='${issuesTracker}'`)
+    }
+    if (query.length > 0) {
+      search += ` AND ${query.join(' AND ')}`
+    }
+
+    let sqlTotal = `SELECT COUNT(issueid) AS total FROM issues WHERE projectid = ${projectid} ${search}`
+
+    db.query(sqlProject, (err, dataProject) => {
+      if (err) return res.status(500).json({
+        error: true,
+        message: err
+      })
+      let project = dataProject.rows[0]
+
+      db.query(sqlTotal, (err, totalData) => {
+        if (err) return res.status(500).json({
+          error: true,
+          message: err
+        })
+        let total = totalData.rows[0]
+
+        const urlPage = req.url == `/${projectid}/issues` ? `/${projectid}/issues/?page=1` : req.url;
+        // console.log(req.url)
+        // console.log(urlPage)
+        const page = req.query.page || 1
+        const limit = 3;
+        const offset = (page - 1) * limit;
+        const pages = Math.ceil(total / limit)
+        // console.log(offset)
+        let sqlIssues = `SELECT issues.*, CONCAT(users.firstname,' ',users.lastname) AS authorname FROM issues
+        LEFT JOIN users ON issues.author = users.userid WHERE issues.projectid=${projectid} ${search} 
+        ORDER BY issues.issueid ASC LIMIT ${limit} OFFSET ${offset}`
+
+        db.query(sqlIssues, (err, dataIssues) => {
+          if (err) return res.status(500).json({
+            error: true,
+            message: err
+          })
+          let issues = dataIssues.rows
+
+          let sqlAssignee = `SELECT users.userid, CONCAT(firstname,' ',lastname) AS fullname FROM members
+          LEFT JOIN users ON members.userid=users.userid WHERE projectid=${projectid}`
+
+          db.query(sqlAssignee, (err, dataAssignee) => {
+            if (err) return res.status(500).json({
+              error: true,
+              message: err
+            })
+            let assignee = dataAssignee.rows
+
+            res.render('projects/issues/list', {
+              // res.json({
+              project,
+              issues,
+              assignee,
+              projectid,
+              link,
+              url,
+              moment
 
 
+
+            })
+          })
+        })
+      })
+    })
+  })
 
 
 
