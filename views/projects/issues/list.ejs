@@ -119,28 +119,30 @@
                                     <div class="col-sm-2">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="cid" name="checkid"
-                                                value="true" checked="">
+                                                value="true" <%= option.checkid ? `checked` : `` %>>
                                             <label class="form-check-label" for="cid">
                                                 ID
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="ctracker"
-                                                name="checktracker" value="true" checked="">
+                                                name="checktracker" value="true"
+                                                <%= option.checktracker ? `checked` : `` %>>
                                             <label class="form-check-label" for="ctracker">
                                                 Tracker
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="csubject"
-                                                name="checksubject" value="true" checked="">
+                                                name="checksubject" value="true"
+                                                <%= option.checksubject ? `checked` : `` %>>
                                             <label class="form-check-label" for="csubject">
                                                 Subject
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="cdescription"
-                                                name="checkdesc" value="true" checked="">
+                                                name="checkdesc" value="true" <%= option.checkdesc ? `checked` : `` %>>
                                             <label class="form-check-label" for="cdescription">
                                                 Description
                                             </label>
@@ -150,28 +152,32 @@
                                     <div class="col-sm-2">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="cstatus"
-                                                name="checkstatus" value="true" checked="">
+                                                name="checkstatus" value="true"
+                                                <%= option.checkstatus ? `checked` : `` %>>
                                             <label class="form-check-label" for="cstatus">
                                                 Status
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="cpriority"
-                                                name="checkpriority" value="true" checked="">
+                                                name="checkpriority" value="true"
+                                                <%= option.checkpriority ? `checked` : `` %>>
                                             <label class="form-check-label" for="cpriority">
                                                 Priority
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="cassignee"
-                                                name="checkassignee" value="true" checked="">
+                                                name="checkassignee" value="true"
+                                                <%= option.checkassignee ? `checked` : `` %>>
                                             <label class="form-check-label" for="cassignee">
                                                 Assignee
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="cstartdate"
-                                                name="checkstartdate" value="true" checked="">
+                                                name="checkstartdate" value="true"
+                                                <%= option.checkstartdate ? `checked` : `` %>>
                                             <label class="form-check-label" for="cstartdate">
                                                 Start Date
                                             </label>
@@ -181,28 +187,31 @@
                                     <div class="col-sm-2">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="cduedate"
-                                                name="checkduedate" value="true" checked="">
+                                                name="checkduedate" value="true"
+                                                <%= option.checkduedate ? `checked` : `` %>>
                                             <label class="form-check-label" for="cduedate">
                                                 Due Date
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="cestimated"
-                                                name="checkestimated" value="true" checked="">
+                                                name="checkestimated" value="true"
+                                                <%= option.checkestimated ? `checked` : `` %>>
                                             <label class="form-check-label" for="cestimated">
                                                 Estimated
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="cdone" name="checkdone"
-                                                value="true" checked="">
+                                                value="true" <%= option.checkdone ? `checked` : `` %>>
                                             <label class="form-check-label" for="cdone">
                                                 Done
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="cauthor"
-                                                name="checkauthor" value="true" checked="">
+                                                name="checkauthor" value="true"
+                                                <%= option.checkauthor ? `checked` : `` %>>
                                             <label class="form-check-label" for="cauthor">
                                                 Author
                                             </label>
@@ -212,21 +221,23 @@
                                     <div class="col-sm-2">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="cspentime"
-                                                name="checkspentime" value="true" checked="">
+                                                name="checkspentime" value="true"
+                                                <%= option.checkspentime ? `checked` : `` %>>
                                             <label class="form-check-label" for="cspentime">
                                                 Spent Time
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="cfile" name="checkfile"
-                                                value="true" checked="">
+                                                value="true" <%= option.checkfile ? `checked` : `` %>>
                                             <label class="form-check-label" for="cfile">
                                                 File
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="ctarget"
-                                                name="checktarget" value="true" checked="">
+                                                name="checktarget" value="true"
+                                                <%= option.checktarget ? `checked` : `` %>>
                                             <label class="form-check-label" for="ctarget">
                                                 Target Version
                                             </label>
@@ -236,28 +247,32 @@
                                     <div class="col-sm-2">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="ccreated"
-                                                name="checkcreated" value="true" checked="">
+                                                name="checkcreated" value="true"
+                                                <%= option.checkcreated ? `checked` : `` %>>
                                             <label class="form-check-label" for="ccreated">
                                                 Created Date
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="cupdate"
-                                                name="checkupdate" value="true" checked="">
+                                                name="checkupdate" value="true"
+                                                <%= option.checkupdate ? `checked` : `` %>>
                                             <label class="form-check-label" for="cupdate">
                                                 Update Date
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="cclosed"
-                                                name="checkclosed" value="true" checked="">
+                                                name="checkclosed" value="true"
+                                                <%= option.checkclosed ? `checked` : `` %>>
                                             <label class="form-check-label" for="cclosed">
                                                 Closed Date
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="cparentask"
-                                                name="checkparentask" value="true" checked="">
+                                                name="checkparentask" value="true"
+                                                <%= option.checkparentask ? `checked` : `` %>>
                                             <label class="form-check-label" for="cparentask">
                                                 Parent Task
                                             </label>
@@ -277,34 +292,33 @@
                             <table class="table table-striped table-responsive">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Tracker</th>
-                                        <th>Subject</th>
-                                        <th>Description</th>
-                                        <th>Status</th>
-                                        <th>Priority</th>
-                                        <th>Assignee</th>
-                                        <th>Start Date</th>
-                                        <th>Due Date</th>
-                                        <th>Estimated (Hours)</th>
-                                        <th>Done</th>
-                                        <th>Author</th>
-                                        <th>Spent Time</th>
-                                        <th>File</th>
-                                        <th>Target Version</th>
-                                        <th>Created Date</th>
-                                        <th>Update Date</th>
-                                        <th>Closed Date</th>
-                                        <th>Perent Task</th>
+                                        <th <%= option.checkid ? `` : `hidden` %>>ID</th>
+                                        <th <%= option.checktracker ? `` : `hidden` %>>Tracker</th>
+                                        <th <%= option.checksubject ? `` : `hidden` %>>Subject</th>
+                                        <th <%= option.checkdesc ? `` : `hidden` %>>Description</th>
+                                        <th <%= option.checkstatus ? `` : `hidden` %>>Status</th>
+                                        <th <%= option.checkpriority ? `` : `hidden` %>>Priority</th>
+                                        <th <%= option.checkassignee ? `` : `hidden` %>>Assignee</th>
+                                        <th <%= option.checkstartdate ? `` : `hidden` %>>Start Date</th>
+                                        <th <%= option.checkduedate ? `` : `hidden` %>>Due Date</th>
+                                        <th <%= option.checkestimated ? `` : `hidden` %>>Estimated (Hours)</th>
+                                        <th <%= option.checkdone ? `` : `hidden` %>>Done</th>
+                                        <th <%= option.checkauthor ? `` : `hidden` %>>Author</th>
+                                        <th <%= option.checkspentime ? `` : `hidden` %>>Spent Time</th>
+                                        <th <%= option.checkfile ? `` : `hidden` %>>File</th>
+                                        <th <%= option.checktarget ? `` : `hidden` %>>Target Version</th>
+                                        <th <%= option.checkcreated ? `` : `hidden` %>>Created Date</th>
+                                        <th <%= option.checkupdate ? `` : `hidden` %>>Update Date</th>
+                                        <th <%= option.checkclosed ? `` : `hidden` %>>Closed Date</th>
+                                        <th <%= option.checkparentask ? `` : `hidden` %>>Perent Task</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <% issues.forEach(item =>{%>
                                     <tr>
-                                        <td><%= item.issueid %></td>
-
-                                        <td>
+                                        <td <%= option.checkid ? `` : `hidden` %>><%= item.issueid %></td>
+                                        <td <%= option.checktracker ? `` : `hidden` %>>
                                             <%if(item.tracker == 'Bug'){%>
                                             <h5><span class="badge badge-pill badge-warning"><%= item.tracker %></span>
                                             </h5>
@@ -316,10 +330,11 @@
                                             </h5>
                                             <%}%>
                                         </td>
-                                        <td><%= item.subject %></td>
-                                        <td><%= item.description %></td>
-                                        <td><%= item.status %></td>
-                                        <td><%if(item.priority == 'immediate'){%>
+                                        <td <%= option.checksubject ? `` : `hidden` %>><%= item.subject %></td>
+                                        <td <%= option.checkdesc ? `` : `hidden` %>><%= item.description %></td>
+                                        <td <%= option.checkstatus ? `` : `hidden` %>><%= item.status %></td>
+                                        <td <%= option.checkpriority ? `` : `hidden` %>>
+                                            <%if(item.priority == 'immediate'){%>
                                             <h5><span class="badge badge-pill badge-warning"><%= item.priority %></span>
                                             </h5>
                                             <%} else if(item.priority == 'urgent'){%>
@@ -334,26 +349,32 @@
                                             <%}%>
                                         </td>
                                         
-                                        <td>
+                                        <td <%= option.checkassignee ? `` : `hidden` %>>
                                             <% assignee.forEach(e =>{ %>
                                             <%= e.userid == item.assignee ? e.fullname : '' %>
                                             <% }) %>
                                         </td>
 
-                                        <td><%=moment(item.startdate).format("MMMM Do, YYYY")%></td>
-                                        <td><%=moment(item.duedate).format("MMMM Do, YYYY")%></td>
-                                        <td><%=item.estimatedtime == 1 ? item.estimatedtime + ' Hour' : item.estimatedtime + ' Hours'%>
+                                        <td <%= option.checkstartdate ? `` : `hidden` %>>
+                                            <%=moment(item.startdate).format("MMMM Do, YYYY")%></td>
+                                        <td <%= option.checkduedate ? `` : `hidden` %>>
+                                            <%=moment(item.duedate).format("MMMM Do, YYYY")%></td>
+                                        <td <%= option.checkestimated ? `` : `hidden` %>>
+                                            <%=item.estimatedtime == 1 ? item.estimatedtime + ' Hour' : item.estimatedtime + ' Hours'%>
                                         </td>
-                                        <td><%=item.done%>%</td>
-                                        <td><%=item.authorname%></td>
-                                        <td><%=item.spenttime%></td>
-                                        <td></td>
-                                        <td><%=item.targetversion%></td>
-                                        <td><%=moment(item.crateddate).format("MMMM Do, YYYY")%></td>
-                                        <td><%=moment(item.updateddate).format("MMMM Do, YYYY")%></td>
-                                        <td><%=item.closeddate ? moment(item.closeddate).format("MMMM Do, YYYY") : " " %>
+                                        <td <%= option.checkdone ? `` : `hidden` %>><%=item.done%>%</td>
+                                        <td <%= option.checkauthor ? `` : `hidden` %>><%=item.authorname%></td>
+                                        <td <%= option.checkspentime ? `` : `hidden` %>><%=item.spenttime%></td>
+                                        <td <%= option.checkfile ? `` : `hidden` %>></td>
+                                        <td <%= option.checktarget ? `` : `hidden` %>><%=item.targetversion%></td>
+                                        <td <%= option.checkcreated ? `` : `hidden` %>>
+                                            <%=moment(item.crateddate).format("MMMM Do, YYYY")%></td>
+                                        <td <%= option.checkupdate ? `` : `hidden` %>>
+                                            <%=moment(item.updateddate).format("MMMM Do, YYYY")%></td>
+                                        <td <%= option.checkclosed ? `` : `hidden` %>>
+                                            <%=item.closeddate ? moment(item.closeddate).format("MMMM Do, YYYY") : " " %>
                                         </td>
-                                        <td></td>
+                                        <td <%= option.checkparentask ? `` : `hidden` %>></td>
                                         <td>
                                             <a href="">
                                                 <button class="btn btn-outline-success">Edit</button>

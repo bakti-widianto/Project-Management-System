@@ -16,6 +16,28 @@ let optionMember = {
   position: true
 }
 
+let optionIssues = {
+  checkid: true,
+  checktracker: true,
+  checksubject: true,
+  checkdesc: true,
+  checkstatus: true,
+  checkpriority: true,
+  checkassignee: true,
+  checkstartdate: true,
+  checkduedate: true,
+  checkestimated: true,
+  checkdone: true,
+  checkauthor: true,
+  checkspentime: true,
+  checkfile: true,
+  checktarget: true,
+  checkcreated: true,
+  checkupdate: true,
+  checkclosed: true,
+  checkparentask: true
+}
+
 module.exports = (db) => {
   router.get('/', function (req, res, next) {
     // Get page project
@@ -415,7 +437,7 @@ module.exports = (db) => {
 
   router.post('/:projectid/members/option', (req, res) => {
     const projectid = req.params.projectid
-    console.log(req.body)
+
     optionMember.id = req.body.checkid;
     optionMember.name = req.body.checkname;
     optionMember.position = req.body.checkposition;
@@ -609,15 +631,61 @@ module.exports = (db) => {
               projectid,
               link,
               url,
-              moment
-
-
+              moment,
+              option: optionIssues
 
             })
           })
         })
       })
     })
+  })
+
+  router.post('/:projectid/issues', (req, res) => {
+    const projectid = req.params.projectid
+    const {
+      checkid,
+      checktracker,
+      checksubject,
+      checkdesc,
+      checkstatus,
+      checkpriority,
+      checkassignee,
+      checkstartdate,
+      checkduedate,
+      checkestimated,
+      checkdone,
+      checkauthor,
+      checkspentime,
+      checkfile,
+      checktarget,
+      checkcreated,
+      checkupdate,
+      checkclosed,
+      checkparentask
+    } = req.body
+
+    optionIssues.checkid = checkid
+    optionIssues.checktracker = checktracker
+    optionIssues.checksubject = checksubject
+    optionIssues.checkdesc = checkdesc
+    optionIssues.checkstatus = checkstatus
+    optionIssues.checkpriority = checkpriority
+    optionIssues.checkassignee = checkassignee
+    optionIssues.checkstartdate = checkstartdate
+    optionIssues.checkduedate = checkduedate
+    optionIssues.checkestimated = checkestimated
+    optionIssues.checkdone = checkdone
+    optionIssues.checkauthor = checkauthor
+    optionIssues.checkspentime = checkspentime
+    optionIssues.checkfile = checkfile
+    optionIssues.checktarget = checktarget
+    optionIssues.checkcreated = checkcreated
+    optionIssues.checkupdate = checkupdate
+    optionIssues.checkclosed = checkclosed
+    optionIssues.checkparentask = checkparentask
+
+    res.redirect(`/projects/${projectid}/issues`)
   })
 
 
