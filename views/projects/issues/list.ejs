@@ -26,7 +26,7 @@
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
                 <h1 style="text-align: center;">Issues of Projects</h1>
                 <h4 style="text-align: center;">
-                    <small class="text-muted">#<%=projectid%> </small>
+                    <small class="text-muted">#<%=projectid%> <%=project.name%></small>
                 </h4>
                 <hr>
 
@@ -95,7 +95,7 @@
 
                                     <div class="container" style="margin-left: 20px;">
                                         <button type="submit" class="btn btn-outline-dark">Search</button>
-                                        <a href="">
+                                        <a href="/projects/<%=projectid%>/issues">
                                             <button type="button" class="btn btn-outline-secondary"
                                                 id="reset">Reset</button>
                                         </a>
@@ -110,7 +110,7 @@
                         <h2 class="col-sm-4" style="font-family:Georgia, 'Times New Roman', Times, serif">Option
                             Columns</h2>
                     </div>
-                    <!-- list table -->
+
                     <div class="card-body">
                         <div class="container">
 
@@ -263,9 +263,16 @@
                                             </label>
                                         </div>
                                     </div>
-
+                                    <div class="col-sm-2">
+                                        <div class="col-sm-2" style="margin-top: 10px;">
+                                            <button class="btn btn-dark btn-sm" type="submit">Apply</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </form>
+                        </div>
+                        <!-- list table -->
+                        <div class="container">
 
                             <table class="table table-striped table-responsive">
                                 <thead class="thead-dark">
@@ -279,7 +286,7 @@
                                         <th>Assignee</th>
                                         <th>Start Date</th>
                                         <th>Due Date</th>
-                                        <th>Estimated</th>
+                                        <th>Estimated (Hours)</th>
                                         <th>Done</th>
                                         <th>Author</th>
                                         <th>Spent Time</th>
@@ -293,26 +300,59 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
+                                    <% issues.forEach(item =>{%>
                                     <tr>
+                                        <td><%= item.issueid %></td>
+
+                                        <td>
+                                            <%if(item.tracker == 'Bug'){%>
+                                            <h5><span class="badge badge-pill badge-warning"><%= item.tracker %></span>
+                                            </h5>
+                                            <%} else if(item.tracker == 'Feature'){%>
+                                            <h5><span class="badge badge-pill badge-primary"><%= item.tracker %></span>
+                                            </h5>
+                                            <%}else{%>
+                                            <h5><span class="badge badge-pill badge-info"><%= item.tracker %></span>
+                                            </h5>
+                                            <%}%>
+                                        </td>
+                                        <td><%= item.subject %></td>
+                                        <td><%= item.description %></td>
+                                        <td><%= item.status %></td>
+                                        <td><%if(item.priority == 'immediate'){%>
+                                            <h5><span class="badge badge-pill badge-warning"><%= item.priority %></span>
+                                            </h5>
+                                            <%} else if(item.priority == 'urgent'){%>
+                                            <h5><span class="badge badge-pill badge-danger"><%= item.priority %></span>
+                                            </h5>
+                                            <%} else if(item.priority == 'high'){%>
+                                            <h5><span class="badge badge-pill badge-dark"><%= item.priority %></span>
+                                            </h5>
+                                            <%}else{%>
+                                            <h5><span class="badge badge-pill badge-dark"><%= item.priority %></span>
+                                            </h5>
+                                            <%}%>
+                                        </td>
+                                        
+                                        <td>
+                                            <% assignee.forEach(e =>{ %>
+                                            <%= e.userid == item.assignee ? e.fullname : '' %>
+                                            <% }) %>
+                                        </td>
+
+                                        <td><%=moment(item.startdate).format("MMMM Do, YYYY")%></td>
+                                        <td><%=moment(item.duedate).format("MMMM Do, YYYY")%></td>
+                                        <td><%=item.estimatedtime == 1 ? item.estimatedtime + ' Hour' : item.estimatedtime + ' Hours'%>
+                                        </td>
+                                        <td><%=item.done%>%</td>
+                                        <td><%=item.authorname%></td>
+                                        <td><%=item.spenttime%></td>
                                         <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td><%=item.targetversion%></td>
+                                        <td><%=moment(item.crateddate).format("MMMM Do, YYYY")%></td>
+                                        <td><%=moment(item.updateddate).format("MMMM Do, YYYY")%></td>
+                                        <td><%=item.closeddate ? moment(item.closeddate).format("MMMM Do, YYYY") : " " %>
+                                        </td>
                                         <td></td>
                                         <td>
                                             <a href="">
@@ -324,13 +364,13 @@
                                             </a>
                                         </td>
                                     </tr>
-
+                                    <%})%>
                                 </tbody>
                             </table>
 
                             <div class="col-center">
                                 <a href="">
-                                    <button class="btn btn-outline-dark">Add Member</button>
+                                    <button class="btn btn-outline-dark">Add Issues</button>
                                 </a>
                             </div>
                         </div>
