@@ -592,7 +592,7 @@ module.exports = (db) => {
           error: true,
           message: err
         })
-        let total = totalData.rows[0]
+        let total = totalData.rows[0].total
 
         const urlPage = req.url == `/${projectid}/issues` ? `/${projectid}/issues/?page=1` : req.url;
         // console.log(req.url)
@@ -601,7 +601,7 @@ module.exports = (db) => {
         const limit = 3;
         const offset = (page - 1) * limit;
         const pages = Math.ceil(total / limit)
-        // console.log(offset)
+        // console.log(pages)
         let sqlIssues = `SELECT issues.*, CONCAT(users.firstname,' ',users.lastname) AS authorname FROM issues
         LEFT JOIN users ON issues.author = users.userid WHERE issues.projectid=${projectid} ${search} 
         ORDER BY issues.issueid ASC LIMIT ${limit} OFFSET ${offset}`
@@ -632,7 +632,10 @@ module.exports = (db) => {
               link,
               url,
               moment,
-              option: optionIssues
+              option: optionIssues,
+              page,
+              pages,
+              urlPage
 
             })
           })

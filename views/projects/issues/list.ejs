@@ -388,7 +388,32 @@
                                     <%})%>
                                 </tbody>
                             </table>
-
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item <%= page <= 1 ? 'disabled' : '' %>">
+                                        <a class="page-link"
+                                            href="/projects<%= urlPage.replace(`page=${parseInt(page)}`, `page=${(parseInt(page) - 1)}`) %>"
+                                            aria-label="Previous">
+                                            Previous
+                                        </a>
+                                    </li>
+                                    <% for (let i = 1; i <= pages; i++) { %>
+                                    <li class="page-item <%= page == i ? 'active' : '' %>">
+                                        <a class="page-link"
+                                            href="/projects<%= link.replace(`page=${parseInt(page)}`, `page=${i}`) %>">
+                                            <%= i %>
+                                        </a>
+                                    </li>
+                                    <% } %>
+                                    <li class="page-item <%= page >= pages ? 'disabled' : '' %>">
+                                        <a class="page-link"
+                                            href="/projects<%= urlPage.replace(`page=${parseInt(page)}`, `page=${(parseInt(page) + 1)}`) %>"
+                                            aria-label="Next">
+                                            Next
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
                             <div class="col-center">
                                 <a href="">
                                     <button class="btn btn-outline-dark">Add Issues</button>
