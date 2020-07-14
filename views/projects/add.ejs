@@ -37,12 +37,13 @@
                             <div class="row">
                                 <legend class="col-form-label col-sm-2 pt-0">Members</legend>
                                 <div class="col-sm-10">
-                                    <% data.forEach(item =>{%>
+                                    <% data.forEach((item, index) =>{%>
                                     <div class="form-check">
 
-                                        <input class="form-check-input" type="checkbox" name="members" id="members"
-                                            value="<%=item.userid%>">
-                                        <label class="form-check-label" for="members" style="margin-top: 5px;">
+                                        <input class="form-check-input" type="checkbox" name="members"
+                                            id="members<%=index + 1%>" value="<%=item.userid%>">
+                                        <label class="form-check-label" for="members<%=index + 1%>"
+                                            style="margin-top: 5px;">
                                             <%=item.fullname%>
                                         </label>
                                     </div>
