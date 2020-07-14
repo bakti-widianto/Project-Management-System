@@ -315,26 +315,26 @@ module.exports = (db) => {
           let supportTotal = 0;
 
           dataIssues.rows.forEach(item => {
-            if (item.tracker == 'bug' && item.status !== "Closed") {
+            if (item.tracker == 'Bug' && item.status !== "Closed") {
               bugOpen += 1
             }
-            if (item.tracker == 'bug') {
+            if (item.tracker == 'Bug') {
               bugTotal += 1
             }
           })
           dataIssues.rows.forEach(item => {
-            if (item.tracker == 'feature' && item.status !== "Closed") {
+            if (item.tracker == 'Feature' && item.status !== "Closed") {
               featureOpen += 1
             }
-            if (item.tracker == 'feature') {
+            if (item.tracker == 'Feature') {
               featureTotal += 1
             }
           })
           dataIssues.rows.forEach(item => {
-            if (item.tracker == 'support' && item.status !== "Closed") {
+            if (item.tracker == 'Support' && item.status !== "Closed") {
               supportOpen += 1
             }
-            if (item.tracker == 'support') {
+            if (item.tracker == 'Support') {
               supportTotal += 1
             }
           })
@@ -690,6 +690,38 @@ module.exports = (db) => {
 
     res.redirect(`/projects/${projectid}/issues`)
   })
+
+  router.get('/:projectid/issues/add', function (req, res, next) {
+    const projectid = req.params.projectid
+    const link = 'projects'
+    const url = 'issues'
+
+    let sqlProject = `SELECT * FROM projects WHERE projectid=${projectid}`
+    db.query(sqlProject, (err, dataProject) => {
+      if (err) return res.status(500).json({
+        error: true,
+        message: err
+      })
+      let project = dataProject.rows[0]
+
+      let sqlMembers = `SELECT users.userid, CONCAT(users.firstname,' ',users.lastname) AS fullname FROM members
+      LEFT JOIN users ON members.userid = users.userid WHERE projectid=${projectid}`
+      db.query(sqlMembers, (err, dataMembers) => {
+        if (err) return res.status(500).json({
+          error: true,
+          message: err
+        })
+        let members = dataMembers.rows
+        res.render('projects/issues/add', {
+          projectid,
+          link,
+          url,
+          project,
+          members
+        })
+      })
+    })
+  });
 
 
 
