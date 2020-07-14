@@ -39,7 +39,7 @@ let optionIssues = {
 }
 
 module.exports = (db) => {
-  router.get('/', function (req, res, next) {
+  router.get('/', check.isLoggedIn, function (req, res, next) {
     // Get page project
     let link = 'projects'
     let user = req.session.user
@@ -121,7 +121,7 @@ module.exports = (db) => {
     })
   });
 
-  router.post('/option', (req, res) => {
+  router.post('/option', check.isLoggedIn, (req, res) => {
     checkOption.id = req.body.checkid;
     checkOption.name = req.body.checkname;
     checkOption.member = req.body.checkmember;
@@ -129,7 +129,7 @@ module.exports = (db) => {
   })
 
   //get data for form add projects
-  router.get('/add', (req, res) => {
+  router.get('/add', check.isLoggedIn, (req, res) => {
     let link = 'projects'
     let sql = `SELECT DISTINCT (userid), CONCAT(firstname, ' ', lastname) AS fullname FROM users ORDER BY fullname`
     db.query(sql, (err, data) => {
@@ -145,7 +145,7 @@ module.exports = (db) => {
   })
 
   //post data project
-  router.post('/add', (req, res) => {
+  router.post('/add', check.isLoggedIn, (req, res) => {
     const { projectname, members } = req.body
     if (projectname && members) {
       const insertProject = `INSERT INTO projects (name) VALUES ('${projectname}')`
@@ -181,7 +181,7 @@ module.exports = (db) => {
 
 
   //get data form edit
-  router.get('/edit/:projectid', (req, res) => {
+  router.get('/edit/:projectid', check.isLoggedIn, (req, res) => {
     let projectid = req.params.projectid
     let link = 'projects'
     let sql = `SELECT projects.name FROM projects WHERE projects.projectid = ${projectid}`
@@ -223,7 +223,7 @@ module.exports = (db) => {
   })
 
   //post data form edit
-  router.post('/edit/:projectid', (req, res) => {
+  router.post('/edit/:projectid', check.isLoggedIn, (req, res) => {
     let projectid = req.params.projectid
     const { editProjectname, editMembers } = req.body
     let sqlProjectname = `UPDATE projects SET name = '${editProjectname}' WHERE projectid = ${projectid}`
@@ -266,25 +266,29 @@ module.exports = (db) => {
   })
 
   //delete project
-  router.get('/delete/:projectid', (req, res) => {
-    const projectid = req.params.projectid
-    let sqlDeleteproject = `
-    DELETE FROM projects WHERE projectid=${projectid};
-    DELETE FROM members WHERE projectid=${projectid}`
-
-    db.query(sqlDeleteproject, (err) => {
+  router.get('/delete/:projectid', check.isLoggedIn, (req, res) => {
+    const projectid = parseInt(req.params.projectid)
+    let sqlMember = `DELETE FROM members WHERE projectid= ${projectid};`
+    db.query(sqlMember, (err) => {
       if (err) return res.status(500).json({
         error: true,
         message: err
       })
-      res.redirect('/projects')
+      let sqlProject = `DELETE FROM projects WHERE projectid= ${projectid}`
+      db.query(sqlProject, (err) => {
+        if (err) return res.status(500).json({
+          error: true,
+          message: err
+        })
+        res.redirect('/projects')
+      })
     })
   })
 
 
   //==============================OVERVIEW============================
   //get data for card overview
-  router.get('/:projectid/overview', function (req, res, next) {
+  router.get('/:projectid/overview', check.isLoggedIn, function (req, res, next) {
     let link = 'projects'
     let url = 'overview'
     let projectid = req.params.projectid
@@ -358,7 +362,7 @@ module.exports = (db) => {
 
   //=================CRUD MEMBER=================
   // get data for Member list
-  router.get('/:projectid/members', function (req, res, next) {
+  router.get('/:projectid/members', check.isLoggedIn, function (req, res, next) {
     let projectid = req.params.projectid
     let link = 'projects'
     let url = 'members'
@@ -435,7 +439,7 @@ module.exports = (db) => {
     })
   });
 
-  router.post('/:projectid/members/option', (req, res) => {
+  router.post('/:projectid/members/option', check.isLoggedIn, (req, res) => {
     const projectid = req.params.projectid
 
     optionMember.id = req.body.checkid;
@@ -445,7 +449,7 @@ module.exports = (db) => {
   })
 
   //get form members 
-  router.get('/:projectid/members/add', function (req, res, next) {
+  router.get('/:projectid/members/add', check.isLoggedIn, function (req, res, next) {
     const projectid = req.params.projectid
     const link = 'projects'
     const url = 'members'
@@ -475,7 +479,7 @@ module.exports = (db) => {
   });
 
   //post new mamber project
-  router.post('/:projectid/members/add', function (req, res, next) {
+  router.post('/:projectid/members/add', check.isLoggedIn, function (req, res, next) {
     const projectid = req.params.projectid
     const { inputmember, inputposition } = req.body
     let sqlAdd = `INSERT INTO members(userid, role, projectid) VALUES ($1,$2,$3)`
@@ -491,7 +495,7 @@ module.exports = (db) => {
   });
 
   //get for form edit members
-  router.get('/:projectid/members/:id', function (req, res, next) {
+  router.get('/:projectid/members/:id', check.isLoggedIn, function (req, res, next) {
     let projectid = req.params.projectid;
     let id = req.params.id
     let sqlMember = `SELECT members.id, CONCAT(users.firstname,' ',users.lastname) AS fullname, members.role FROM members
@@ -522,7 +526,7 @@ module.exports = (db) => {
   });
 
   //edit position member
-  router.post('/:projectid/members/:id', function (req, res, next) {
+  router.post('/:projectid/members/:id', check.isLoggedIn, function (req, res, next) {
     let projectid = req.params.projectid
     let id = req.params.id;
     let position = req.body.inputposition;
@@ -539,7 +543,7 @@ module.exports = (db) => {
   });
 
   //delete member project
-  router.get('/:projectid/members/:id/delete', function (req, res, next) {
+  router.get('/:projectid/members/:id/delete', check.isLoggedIn, function (req, res, next) {
     let projectid = req.params.projectid
     let id = req.params.id;
     let sql = `DELETE FROM members WHERE projectid=${projectid} AND id=${id}`
@@ -555,7 +559,7 @@ module.exports = (db) => {
 
   //================================CRUD ISSUES==========================
   //List issues
-  router.get('/:projectid/issues', function (req, res, next) {
+  router.get('/:projectid/issues', check.isLoggedIn, function (req, res, next) {
     let projectid = req.params.projectid
     const link = 'projects'
     const url = 'issues'
@@ -644,7 +648,8 @@ module.exports = (db) => {
     })
   })
 
-  router.post('/:projectid/issues', (req, res) => {
+  //option show/hidden columns
+  router.post('/:projectid/issues', check.isLoggedIn, (req, res) => {
     const projectid = req.params.projectid
     const {
       checkid,
@@ -691,6 +696,7 @@ module.exports = (db) => {
     res.redirect(`/projects/${projectid}/issues`)
   })
 
+  //get data assignee for form addissuee
   router.get('/:projectid/issues/add', function (req, res, next) {
     const projectid = req.params.projectid
     const link = 'projects'
@@ -722,6 +728,30 @@ module.exports = (db) => {
       })
     })
   });
+
+  //post issue
+  router.post('/:projectid/issues/add', function (req, res, next) {
+    let projectid = parseInt(req.params.projectid)
+    let formAdd = req.body
+    let user = req.session.user
+
+    // let sqlIssue = `INSERT INTO issues(projectid, tracker, subject, description, status, priority, assignee, startdate, duedate, estimatedtime, done, author, createddate)
+    // VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, NOW())`
+    // let values = [projectid, formAdd.tracker, formAdd.subject, formAdd.description, formAdd.status, formAdd.priority, parseInt(formAdd.assignee), formAdd.startDate, formAdd.dueDate, parseInt(formAdd.estimatedTime), parseInt(formAdd.done), user.userid]
+
+    console.log(req.files)
+
+    // db.query(sqlIssue, values, (err) => {
+    //   if (err) return res.status(500).json({
+    //     error: true,
+    //     message: err
+    //   })
+
+    // })
+
+
+  });
+
 
 
 

@@ -16,7 +16,7 @@ module.exports = (db) => {
       })
       res.render('profile/listProfile', {
         link,
-        user: user,
+        user,
         data: data.rows[0]
       })
     })
