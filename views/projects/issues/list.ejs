@@ -364,7 +364,9 @@
                                         </td>
                                         <td <%= option.checkdone ? `` : `hidden` %>><%=item.done%>%</td>
                                         <td <%= option.checkauthor ? `` : `hidden` %>><%=item.authorname%></td>
-                                        <td <%= option.checkspentime ? `` : `hidden` %>><%=item.spenttime%></td>
+                                        <td <%= option.checkspentime ? `` : `hidden` %>>
+                                            <%=item.spenttime== 1 ? item.spenttime + ' Hour' : item.spenttime + ' Hours'%>
+                                        </td>
                                         <td <%= option.checkfile ? `` : `hidden` %>>
                                             <%if(item.files){%>
                                             <a href="/upload/<%=item.files%>">File</a>
@@ -380,7 +382,7 @@
                                         <td <%= option.checkclosed ? `` : `hidden` %>>
                                             <%=item.closeddate ? moment(item.closeddate).format("MMMM Do, YYYY") : " " %>
                                         </td>
-                                        <td <%= option.checkparentask ? `` : `hidden` %>></td>
+                                        <td <%= option.checkparentask ? `` : `hidden` %>><%=item.perenttask%></td>
                                         <td>
                                             <a href="/projects/<%=projectid%>/issues/edit/<%=item.issueid%>">
                                                 <button class="btn btn-outline-success">Edit</button>
