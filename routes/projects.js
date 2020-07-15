@@ -320,7 +320,7 @@ module.exports = (db) => {
           let supportTotal = 0;
 
           dataIssues.rows.forEach(item => {
-            if (item.tracker == 'Bug' && item.status !== "Closed") {
+            if (item.tracker == 'Bug' && item.status !== "closed") {
               bugOpen += 1
             }
             if (item.tracker == 'Bug') {
@@ -328,7 +328,7 @@ module.exports = (db) => {
             }
           })
           dataIssues.rows.forEach(item => {
-            if (item.tracker == 'Feature' && item.status !== "Closed") {
+            if (item.tracker == 'Feature' && item.status !== "closed") {
               featureOpen += 1
             }
             if (item.tracker == 'Feature') {
@@ -336,7 +336,7 @@ module.exports = (db) => {
             }
           })
           dataIssues.rows.forEach(item => {
-            if (item.tracker == 'Support' && item.status !== "Closed") {
+            if (item.tracker == 'Support' && item.status !== "closed") {
               supportOpen += 1
             }
             if (item.tracker == 'Support') {
@@ -827,6 +827,51 @@ module.exports = (db) => {
         })
       })
     })
+
+
+    router.post('/:projectid/issues/edit/:id', function (req, res, next) {
+      let projectid = parseInt(req.params.projectid)
+      let issueid = parseInt(req.params.id)
+      let formEdit = req.body
+      let user = req.session.user
+
+      // console.log(formAdd)
+      if (req.files) {
+        let file = req.files.file
+        let fileName = file.name.toLowerCase().replace("", Date.now()).split(" ").join("-")
+        let sqlupdate = `UPDATE issues SET subject = $1, description = $2, status = $3, priority = $4, assignee = $5, duedate = $6, done = $7, perenttask = $8, spenttime = $9, targetversion = $10, files = $11, updateddate = $12 ${formEdit.status == 'closed' ? `, closeddate = NOW() ` : " "}WHERE issueid = $13`
+        let values = [formEdit.subject, formEdit.description, formEdit.status, formEdit.priority, parseInt(formEdit.assignee), formEdit.dueDate, parseInt(formEdit.done), formEdit.perenttask, parseInt(formEdit.spenttime), formEdit.target, fileName, 'NOW()', issueid]
+
+        db.query(sqlupdate, values, (err) => {
+          if (err) return res.status(500).json({
+            error: true,
+            message: err
+          })
+          file.mv(path.join(__dirname, "..", "public", "upload", fileName), function (err) {
+            if (err) return res.status(500).send(err)
+            res.redirect(`/projects/${projectid}/issues`)
+          })
+
+        })
+      } else {
+        let sqlupdate = `UPDATE issues SET subject = $1, description = $2, status = $3, priority = $4, assignee = $5, duedate = $6, done = $7, perenttask = $8, spenttime = $9, targetversion = $10, updateddate = $11 ${formEdit.status == 'closed' ? `, closeddate = NOW() ` : " "}WHERE issueid = $12`
+        let values = [formEdit.subject, formEdit.description, formEdit.status, formEdit.priority, parseInt(formEdit.assignee), formEdit.dueDate, parseInt(formEdit.done), formEdit.perenttask, parseInt(formEdit.spenttime), formEdit.target, 'NOW()', issueid]
+        db.query(sqlupdate, values, (err) => {
+          if (err) return res.status(500).json({
+            error: true,
+            message: err
+          })
+          res.redirect(`/projects/${projectid}/issues`)
+        })
+
+
+      }
+
+    });
+
+
+
+
 
 
 

@@ -78,7 +78,7 @@
                                     <div class="form-group row">
                                         <label for="subject" class="col-sm-2 col-form-label">Subject</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="subject" name=" subject"
+                                            <input type="text" class="form-control" id="subject" name="subject"
                                                 value="<%=issue.subject%>">
                                         </div>
                                     </div>
@@ -106,7 +106,7 @@
                                                     <input class="form-check-input" type="radio" name="status"
                                                         id="inProgress" value="inProgress"
                                                         <%=issue.status == 'inProgress' ? 'checked' : '' %>>
-                                                    <label class="form-check-label">
+                                                    <label class="form-check-label" for="inProgress">
                                                         In Progress
                                                     </label>
                                                 </div>
@@ -114,7 +114,7 @@
                                                     <input class="form-check-input" type="radio" name="status"
                                                         id="resolved" value="resolved"
                                                         <%=issue.status == 'resolved' ? 'checked' : '' %>>
-                                                    <label class="form-check-label">
+                                                    <label class="form-check-label" for="resolved">
                                                         Resolved
                                                     </label>
                                                 </div>
@@ -122,7 +122,7 @@
                                                     <input class="form-check-input" type="radio" name="status"
                                                         id="feedback" value="feedback"
                                                         <%=issue.status == 'feedback' ? 'checked' : '' %>>
-                                                    <label class="form-check-label">
+                                                    <label class="form-check-label" for="feedback">
                                                         Feedback
                                                     </label>
                                                 </div>
@@ -130,7 +130,7 @@
                                                     <input class="form-check-input" type="radio" name="status"
                                                         id="closed" value="closed"
                                                         <%=issue.status == 'closed' ? 'checked' : '' %>>
-                                                    <label class="form-check-label">
+                                                    <label class="form-check-label" for="closed">
                                                         Closed
                                                     </label>
                                                 </div>
@@ -138,7 +138,7 @@
                                                     <input class="form-check-input" type="radio" name="status"
                                                         id="rejected" value="rejected"
                                                         <%=issue.status == 'rejected' ? 'checked' : '' %>>
-                                                    <label class="form-check-label">
+                                                    <label class="form-check-label" for="rejected">
                                                         Rejected
                                                     </label>
                                                 </div>
@@ -264,8 +264,8 @@
                                         <label for="perenttask" class="col-sm-2 col-form-label">
                                             Perent Task</label>
                                         <div class="col-sm-10">
-                                            <select class="custom-select" name="perenttask" required="">
-                                                <option>Choose the Perent Task ...</option>
+                                            <select class="custom-select" name="perenttask" required>
+                                                <option value="" selected disabled>Choose the Perent Task ...</option>
                                                 <% perents.forEach(item =>{%>
                                                 <option value="<%=item.subject%>">
                                                     <%=item.subject%>(<%=item.tracker%>)
@@ -280,7 +280,7 @@
                                         </label>
                                         <div class="col-sm-4">
                                             <input type="number" class="form-control" id="spenttime" name="spenttime"
-                                                placeholder="Spent Time" value="<%=issue.spenttime%>">
+                                                placeholder="Spent Time" value="<%=issue.spenttime%>" required>
                                             <small id="spenttime" class="form-text text-muted">
                                                 Insert Spent Time by Hours
                                             </small>
@@ -291,7 +291,7 @@
                                         <label for="target" class="col-sm-2 col-form-label">Target Version</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="target" name="target"
-                                                placeholder="ex: version 1.0" value="<%=issue.targetversion%>">
+                                                placeholder="ex: version 1.0" value="<%=issue.targetversion%>" required>
                                         </div>
                                     </div>
 
