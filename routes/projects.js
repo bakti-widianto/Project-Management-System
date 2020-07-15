@@ -772,6 +772,72 @@ module.exports = (db) => {
     }
   });
 
+  //get data from edit issue
+  router.get(`/:projectid/issues/edit/:id`, function (req, res, next) {
+    let projectid = req.params.projectid
+    let issueId = req.params.id
+    const link = 'projects'
+    const url = 'issues'
+
+    let sqlProject = `SELECT * FROM projects WHERE projectid=${projectid}`
+    db.query(sqlProject, (err, dataProject) => {
+      if (err) return res.status(500).json({
+        error: true,
+        message: err
+      })
+      let project = dataProject.rows[0]
+      let sqlIssue = `SELECT issues.*, CONCAT(users.firstname,' ',users.lastname) AS authorname FROM issues
+      LEFT JOIN users ON issues.author=users.userid WHERE projectid=${projectid} AND issueid=${issueId}`
+
+      db.query(sqlIssue, (err, issueData) => {
+        if (err) return res.status(500).json({
+          error: true,
+          message: err
+        })
+        let issue = issueData.rows[0]
+
+        let sqlMembers = `SELECT users.userid, CONCAT(users.firstname,' ',users.lastname) AS fullname FROM members
+        LEFT JOIN users ON members.userid = users.userid WHERE projectid=${projectid}`
+        db.query(sqlMembers, (err, dataMember) => {
+          if (err) return res.status(500).json({
+            error: true,
+            message: err
+          })
+          let members = dataMember.rows
+
+          let sqlPerent = `SELECT subject, tracker FROM issues WHERE projectid=${projectid}`
+          db.query(sqlPerent, (err, dataPerent) => {
+            if (err) return res.status(500).json({
+              error: true,
+              message: err
+            })
+            let perents = dataPerent.rows
+            res.render('projects/issues/edit', {
+              // res.json({
+              perents,
+              moment,
+              members,
+              issue,
+              project,
+              projectid,
+              link,
+              url
+            })
+          })
+        })
+      })
+    })
+
+
+
+
+
+
+
+
+
+  })
+
 
 
 

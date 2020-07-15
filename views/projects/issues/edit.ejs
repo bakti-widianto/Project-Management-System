@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Issues</title>
+    <!-- <link rel="stylesheet" href=""> -->
+    <% include ../../partials/head %>
+    <style>
+        body {
+            margin-top: 60px;
+            margin-bottom: 80px;
+        }
+    </style>
+    <link rel="stylesheet" href="/stylesheets/sidebar.css">
+</head>
+
+<body>
+    <header>
+        <% include ../../partials/navbar %>
+    </header>
+
+    <div class="container-fluid" style="margin-top: -15px;">
+        <div class="row">
+            <% include ../../partials/sidebar %>
+
+            <!-- form filter -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                <div class="container" style="margin-top: 20px">
+                    <h1 style="text-align: center;">Edit Issue</h1>
+                    <h4 style="text-align: center;">
+                        <small class="text-muted">#<%=projectid%> <%=project.name%></small>
+                    </h4>
+                    <hr>
+                    <div class="container" style="margin-top: 20px ">
+                        <div class="card bg-light mb-3" style="font-family: initial;">
+                            <div class="card-header text-white bg-dark mb-3">
+                                <h3 style="font-family:Georgia, 'Times New Roman', Times, serif">
+                                    Edit Issue Project!
+                                </h3>
+                            </div>
+                            <div class="card-body">
+
+                                <form method="POST" encType="multipart/form-data">
+                                    <fieldset class="form-group">
+                                        <div class="row">
+                                            <legend class="col-form-label col-sm-2 pt-0">Tracker</legend>
+                                            <div class="col-sm-10">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="tracker" id="bug"
+                                                        value="Bug"
+                                                        <%=issue.tracker == 'Bug' ? 'checked' : 'disabled' %>>
+                                                    <label class="form-check-label" for="bug">
+                                                        Bug
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="tracker"
+                                                        id="feature" value="Feature"
+                                                        <%=issue.tracker == 'Feature' ? 'checked' : 'disabled' %>>
+                                                    <label class="form-check-label" for="feature">
+                                                        Feature
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="tracker"
+                                                        id="support" value="Support"
+                                                        <%=issue.tracker == 'Support' ? 'checked' : 'disabled' %>>
+                                                    <label class="form-check-label" for="support">
+                                                        Support
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                    <div class="form-group row">
+                                        <label for="subject" class="col-sm-2 col-form-label">Subject</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="subject" name=" subject"
+                                                value="<%=issue.subject%>">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="desc" class="col-sm-2 col-form-label">Description</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" id="desc"
+                                                name="description"><%=issue.description%></textarea>
+                                        </div>
+                                    </div>
+
+                                    <fieldset class="form-group">
+                                        <div class="row">
+                                            <legend class="col-form-label col-sm-2 pt-0">Status</legend>
+                                            <div class="col-sm-10">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="status" id="new"
+                                                        value="new" <%=issue.status == 'new' ? 'checked' : '' %>>
+                                                    <label class="form-check-label" for="new">
+                                                        New
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="status"
+                                                        id="inProgress" value="inProgress"
+                                                        <%=issue.status == 'inProgress' ? 'checked' : '' %>>
+                                                    <label class="form-check-label">
+                                                        In Progress
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="status"
+                                                        id="resolved" value="resolved"
+                                                        <%=issue.status == 'resolved' ? 'checked' : '' %>>
+                                                    <label class="form-check-label">
+                                                        Resolved
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="status"
+                                                        id="feedback" value="feedback"
+                                                        <%=issue.status == 'feedback' ? 'checked' : '' %>>
+                                                    <label class="form-check-label">
+                                                        Feedback
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="status"
+                                                        id="closed" value="closed"
+                                                        <%=issue.status == 'closed' ? 'checked' : '' %>>
+                                                    <label class="form-check-label">
+                                                        Closed
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="status"
+                                                        id="rejected" value="rejected"
+                                                        <%=issue.status == 'rejected' ? 'checked' : '' %>>
+                                                    <label class="form-check-label">
+                                                        Rejected
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                    <fieldset class="form-group">
+                                        <div class="row">
+                                            <legend class="col-form-label col-sm-2 pt-0">Priority</legend>
+                                            <div class="col-sm-10">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="priority"
+                                                        id="normal" value="normal"
+                                                        <%=issue.priority == 'normal' ? 'checked' : '' %>>
+                                                    <label class="form-check-label" for="normal">
+                                                        Normal
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="priority"
+                                                        id="high" value="high"
+                                                        <%=issue.priority == 'high' ? 'checked' : '' %>>
+                                                    <label class="form-check-label" for="high">
+                                                        High
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="priority"
+                                                        id="urgent" value="urgent"
+                                                        <%=issue.priority == 'urgent' ? 'checked' : '' %>>
+                                                    <label class="form-check-label" for="urgent">
+                                                        Urgent
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="priority"
+                                                        id="immediate" value="immediate"
+                                                        <%=issue.priority == 'immediate' ? 'checked' : '' %>>
+                                                    <label class="form-check-label" for="immediate">
+                                                        Immediate
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                    <div class="form-group row">
+                                        <label for="assignee" class="col-sm-2 col-form-label">
+                                            Assignee</label>
+                                        <div class="col-sm-10">
+                                            <select class="custom-select" name="assignee" required="">
+                                                <option disabled>Choose the Assignee ...</option>
+                                                <%members.forEach(item => {%>
+                                                <option value="<%=item.userid%>"
+                                                    <%=item.userid == issue.assignee ? 'selected' : "" %>>
+                                                    <%=item.fullname%></option>
+                                                <%})%>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="startDate" class="col-sm-2 col-form-label">Start Date</label>
+                                        <div class="col-sm-10">
+                                            <input type="date" class="form-control" id="startDate" name="startDate"
+                                                value="<%= moment(issue.startdate).format('YYYY-MM-DD') %>" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="dueDate" class="col-sm-2 col-form-label">Due Date</label>
+                                        <div class="col-sm-10">
+                                            <input type="date" class="form-control" id="dueDate" name="dueDate"
+                                                value="<%= moment(issue.duedate).format('YYYY-MM-DD') %>">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row ">
+                                        <label for="estimatedTime" class="col-sm-2 col-form-label">Estimated Time
+                                        </label>
+                                        <div class="col-sm-4">
+                                            <input type="number" class="form-control" id="estimatedTime"
+                                                name="estimatedTime" value="<%=issue.estimatedtime%>" disabled>
+                                            <small id="estimatedTime" class="form-text text-muted">
+                                                Insert Estimated Time by Hours
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="done" class="col-sm-2 col-form-label">
+                                            Done</label>
+                                        <div class="col-sm-10">
+                                            <select class="custom-select" name="done" required="">
+                                                <option>Choose the Percentage ...</option>
+                                                <option value="0" <%= issue.done == 0 ? 'selected' : '' %>>0%</option>
+                                                <option value="10" <%= issue.done == 10 ? 'selected' : '' %>>10%
+                                                </option>
+                                                <option value="20" <%= issue.done == 20 ? 'selected' : '' %>>20%
+                                                </option>
+                                                <option value="30" <%= issue.done == 30 ? 'selected' : '' %>>30%
+                                                </option>
+                                                <option value="40" <%= issue.done == 40 ? 'selected' : '' %>>40%
+                                                </option>
+                                                <option value="50" <%= issue.done == 50 ? 'selected' : '' %>>50%
+                                                </option>
+                                                <option value="60" <%= issue.done == 60 ? 'selected' : '' %>>60%
+                                                </option>
+                                                <option value="70" <%= issue.done == 70 ? 'selected' : '' %>>70%
+                                                </option>
+                                                <option value="80" <%= issue.done == 80 ? 'selected' : '' %>>80%
+                                                </option>
+                                                <option value="90" <%= issue.done == 90 ? 'selected' : '' %>>90%
+                                                </option>
+                                                <option value="100" <%= issue.done == 100 ? 'selected' : '' %>>100%
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="perenttask" class="col-sm-2 col-form-label">
+                                            Perent Task</label>
+                                        <div class="col-sm-10">
+                                            <select class="custom-select" name="perenttask" required="">
+                                                <option>Choose the Perent Task ...</option>
+                                                <% perents.forEach(item =>{%>
+                                                <option value="<%=item.subject%>">
+                                                    <%=item.subject%>(<%=item.tracker%>)
+                                                </option>
+                                                <%})%>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row ">
+                                        <label for="spenttime" class="col-sm-2 col-form-label">Spent Time
+                                        </label>
+                                        <div class="col-sm-4">
+                                            <input type="number" class="form-control" id="spenttime" name="spenttime"
+                                                placeholder="Spent Time" value="<%=issue.spenttime%>">
+                                            <small id="spenttime" class="form-text text-muted">
+                                                Insert Spent Time by Hours
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="target" class="col-sm-2 col-form-label">Target Version</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="target" name="target"
+                                                placeholder="ex: version 1.0" value="<%=issue.targetversion%>">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="author" class="col-sm-2 col-form-label">Author</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="author" name="author"
+                                                value="<%=issue.authorname%>" disabled>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <label for="inputFile" class="col-sm-2 col-form-label">File</label>
+                                        <div class="col-sm-10">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="inputFile" name="file">
+                                                <label class="custom-file-label"
+                                                    for="inputFile"><%= issue.files ? 'Change file ...' : 'Choose file ...' %></label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-sm-10">
+                                            <button type="submit" class="btn btn-outline-dark">Save</button>
+                                            <a class="btn btn-outline-secondary" href="/projects/<%=projectid%>/issues"
+                                                role="button">Back</a>
+                                        </div>
+                                    </div>
+
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+
+        </div>
+    </div>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <% include ../../partials/footer %>
+</body>
+
+</html>
