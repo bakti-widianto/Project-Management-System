@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var path = require('path');
 const check = require('../check/check');
 const { query } = require('express');
 var moment = require('moment');
@@ -735,21 +736,40 @@ module.exports = (db) => {
     let formAdd = req.body
     let user = req.session.user
 
-    // let sqlIssue = `INSERT INTO issues(projectid, tracker, subject, description, status, priority, assignee, startdate, duedate, estimatedtime, done, author, createddate)
-    // VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, NOW())`
-    // let values = [projectid, formAdd.tracker, formAdd.subject, formAdd.description, formAdd.status, formAdd.priority, parseInt(formAdd.assignee), formAdd.startDate, formAdd.dueDate, parseInt(formAdd.estimatedTime), parseInt(formAdd.done), user.userid]
 
-    console.log(req.files)
+    //issue dengan file
+    if (req.files) {
+      let file = req.files.file
+      let fileName = file.name.toLowerCase().replace("", Date.now()).split(" ").join("-")
+      let sqlIssue = `INSERT INTO issues(projectid, tracker, subject, description, status, priority, assignee, startdate, duedate, estimatedtime, done, files, author, createddate)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, NOW())`
+      let values = [projectid, formAdd.tracker, formAdd.subject, formAdd.description, formAdd.status, formAdd.priority, parseInt(formAdd.assignee), formAdd.startDate, formAdd.dueDate, parseInt(formAdd.estimatedTime), parseInt(formAdd.done), fileName, user.userid]
 
-    // db.query(sqlIssue, values, (err) => {
-    //   if (err) return res.status(500).json({
-    //     error: true,
-    //     message: err
-    //   })
+      db.query(sqlIssue, values, (err) => {
+        if (err) return res.status(500).json({
+          error: true,
+          message: err
+        })
+        file.mv(path.join(__dirname, "..", "public", "upload", fileName), function (err) {
+          if (err) return res.status(500).send(err)
+          res.redirect(`/projects/${projectid}/issues`)
+        })
+      })
 
-    // })
+      //issue tanpa file
+    } else {
+      let sqlIssue = `INSERT INTO issues(projectid, tracker, subject, description, status, priority, assignee, startdate, duedate, estimatedtime, done, author, createddate)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, NOW())`
+      let values = [projectid, formAdd.tracker, formAdd.subject, formAdd.description, formAdd.status, formAdd.priority, parseInt(formAdd.assignee), formAdd.startDate, formAdd.dueDate, parseInt(formAdd.estimatedTime), parseInt(formAdd.done), user.userid]
 
-
+      db.query(sqlIssue, values, (err) => {
+        if (err) return res.status(500).json({
+          error: true,
+          message: err
+        })
+        res.redirect(`/projects/${projectid}/issues`)
+      })
+    }
   });
 
 
