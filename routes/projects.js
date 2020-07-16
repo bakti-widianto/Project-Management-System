@@ -84,6 +84,7 @@ module.exports = (db) => {
       const offset = (page - 1) * limit
       const total = totalData.rows[0].total
       const pages = Math.ceil(total / limit);
+
       let getData = `SELECT DISTINCT projects.projectid, projects.name, 
       string_agg(users.firstname || ' ' || users.lastname, ', ') as member FROM projects 
       LEFT JOIN members ON members.projectid = projects.projectid
@@ -600,13 +601,12 @@ module.exports = (db) => {
         let total = totalData.rows[0].total
 
         const urlPage = req.url == `/${projectid}/issues` ? `/${projectid}/issues/?page=1` : req.url;
-        // console.log(req.url)
-        // console.log(urlPage)
+
         const page = req.query.page || 1
         const limit = 3;
         const offset = (page - 1) * limit;
         const pages = Math.ceil(total / limit)
-        // console.log(pages)
+
         let sqlIssues = `SELECT issues.*, CONCAT(users.firstname,' ',users.lastname) AS authorname FROM issues
         LEFT JOIN users ON issues.author = users.userid WHERE issues.projectid=${projectid} ${search} 
         ORDER BY issues.issueid ASC LIMIT ${limit} OFFSET ${offset}`
@@ -698,7 +698,7 @@ module.exports = (db) => {
   })
 
   //get data assignee for form addissuee
-  router.get('/:projectid/issues/add', function (req, res, next) {
+  router.get('/:projectid/issues/add', check.isLoggedIn, function (req, res, next) {
     const projectid = req.params.projectid
     const link = 'projects'
     const url = 'issues'
@@ -731,7 +731,7 @@ module.exports = (db) => {
   });
 
   //post issue
-  router.post('/:projectid/issues/add', function (req, res, next) {
+  router.post('/:projectid/issues/add', check.isLoggedIn, function (req, res, next) {
     let projectid = parseInt(req.params.projectid)
     let formAdd = req.body
     let user = req.session.user
@@ -773,7 +773,7 @@ module.exports = (db) => {
   });
 
   //get data from edit issue
-  router.get(`/:projectid/issues/edit/:id`, function (req, res, next) {
+  router.get(`/:projectid/issues/edit/:id`, check.isLoggedIn, function (req, res, next) {
     let projectid = req.params.projectid
     let issueId = req.params.id
     const link = 'projects'
@@ -831,7 +831,7 @@ module.exports = (db) => {
   })
 
   //post edit issue
-  router.post('/:projectid/issues/edit/:id', function (req, res, next) {
+  router.post('/:projectid/issues/edit/:id', check.isLoggedIn, function (req, res, next) {
     let projectid = parseInt(req.params.projectid)
     let issueid = parseInt(req.params.id)
     let formEdit = req.body
@@ -889,7 +889,7 @@ module.exports = (db) => {
   });
 
   //delete issue
-  router.get(`/:projectid/issues/delete/:id`, function (req, res, next) {
+  router.get(`/:projectid/issues/delete/:id`, check.isLoggedIn, function (req, res, next) {
     let projectid = req.params.projectid
     let issueid = req.params.id
 
@@ -904,7 +904,7 @@ module.exports = (db) => {
   })
 
   //activity
-  router.get('/:projectid/activity', function (req, res, next) {
+  router.get('/:projectid/activity', check.isLoggedIn, function (req, res, next) {
     let projectid = req.params.projectid
     const link = 'projects'
     const url = 'activity'
@@ -954,17 +954,6 @@ module.exports = (db) => {
       })
     })
   });
-
-
-
-
-
-
-
-
-
-
-
 
   return router;
 }

@@ -11,13 +11,13 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item <%= link == 'projects' ? 'active' : '' %>">
-                <a class="nav-link" href="/projects">Project</a>
+                <a class="nav-link" href="/projects"><strong>Project</strong></a>
             </li>
             <li class="nav-item <%= link == 'profile' ? 'active' : '' %>">
-                <a class="nav-link" href="/profile">Profile</a>
+                <a class="nav-link" href="/profile"><strong>Profile</strong></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            <li class="nav-item <%= link == 'users' ? 'active' : '' %>">
+                <a class="nav-link" href="/users"><strong>Users</strong></a>
             </li>
         </ul>
         <a href="/logout">
