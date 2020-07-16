@@ -828,76 +828,93 @@ module.exports = (db) => {
       })
     })
 
+  })
 
-    router.post('/:projectid/issues/edit/:id', function (req, res, next) {
-      let projectid = parseInt(req.params.projectid)
-      let issueid = parseInt(req.params.id)
-      let formEdit = req.body
-      let user = req.session.user
+  //post edit issue
+  router.post('/:projectid/issues/edit/:id', function (req, res, next) {
+    let projectid = parseInt(req.params.projectid)
+    let issueid = parseInt(req.params.id)
+    let formEdit = req.body
+    let user = req.session.user
 
-      // console.log(formAdd)
-      if (req.files) {
-        let file = req.files.file
-        let fileName = file.name.toLowerCase().replace("", Date.now()).split(" ").join("-")
-        let sqlupdate = `UPDATE issues SET subject = $1, description = $2, status = $3, priority = $4, assignee = $5, duedate = $6, done = $7, perenttask = $8, spenttime = $9, targetversion = $10, files = $11, updateddate = $12 ${formEdit.status == 'closed' ? `, closeddate = NOW() ` : " "}WHERE issueid = $13`
-        let values = [formEdit.subject, formEdit.description, formEdit.status, formEdit.priority, parseInt(formEdit.assignee), formEdit.dueDate, parseInt(formEdit.done), formEdit.perenttask, parseInt(formEdit.spenttime), formEdit.target, fileName, 'NOW()', issueid]
+    let title = `${formEdit.subject} #${issueid} (${formEdit.tracker}) - [${formEdit.status}]`
+    let desc = `Spent Time by Hours : from ${formEdit.oldspent} updated to ${formEdit.spenttime}`
+    let sqlActivity = `INSERT INTO activity (time, title, description, author, projectid, olddone, nowdone) 
+    VALUES(NOW(), $1, $2, $3, $4, $5, $6)`
+    let value = [title, desc, user.userid, projectid, formEdit.olddone, formEdit.done]
 
-        db.query(sqlupdate, values, (err) => {
-          if (err) return res.status(500).json({
-            error: true,
-            message: err
-          })
-          file.mv(path.join(__dirname, "..", "public", "upload", fileName), function (err) {
-            if (err) return res.status(500).send(err)
+
+    if (req.files) {
+      let file = req.files.file
+      let fileName = file.name.toLowerCase().replace("", Date.now()).split(" ").join("-")
+      let sqlupdate = `UPDATE issues SET subject = $1, description = $2, status = $3, priority = $4, assignee = $5, duedate = $6, done = $7, perenttask = $8, spenttime = $9, targetversion = $10, files = $11, updateddate = $12 ${formEdit.status == 'closed' ? `, closeddate = NOW() ` : " "}WHERE issueid = $13`
+      let values = [formEdit.subject, formEdit.description, formEdit.status, formEdit.priority, parseInt(formEdit.assignee), formEdit.dueDate, parseInt(formEdit.done), formEdit.perenttask, parseInt(formEdit.spenttime), formEdit.target, fileName, 'NOW()', issueid]
+
+      db.query(sqlupdate, values, (err) => {
+        if (err) return res.status(500).json({
+          error: true,
+          message: err
+        })
+        file.mv(path.join(__dirname, "..", "public", "upload", fileName), function (err) {
+          if (err) return res.status(500).send(err)
+
+          db.query(sqlActivity, value, (err) => {
+            if (err) return res.status(500).json({
+              error: true,
+              message: err
+            })
             res.redirect(`/projects/${projectid}/issues`)
           })
-
         })
-      } else {
-        let sqlupdate = `UPDATE issues SET subject = $1, description = $2, status = $3, priority = $4, assignee = $5, duedate = $6, done = $7, perenttask = $8, spenttime = $9, targetversion = $10, updateddate = $11 ${formEdit.status == 'closed' ? `, closeddate = NOW() ` : " "}WHERE issueid = $12`
-        let values = [formEdit.subject, formEdit.description, formEdit.status, formEdit.priority, parseInt(formEdit.assignee), formEdit.dueDate, parseInt(formEdit.done), formEdit.perenttask, parseInt(formEdit.spenttime), formEdit.target, 'NOW()', issueid]
-        db.query(sqlupdate, values, (err) => {
+      })
+
+
+    } else {
+      let sqlupdate = `UPDATE issues SET subject = $1, description = $2, status = $3, priority = $4, assignee = $5, duedate = $6, done = $7, perenttask = $8, spenttime = $9, targetversion = $10, updateddate = $11 ${formEdit.status == 'closed' ? `, closeddate = NOW() ` : " "}WHERE issueid = $12`
+      let values = [formEdit.subject, formEdit.description, formEdit.status, formEdit.priority, parseInt(formEdit.assignee), formEdit.dueDate, parseInt(formEdit.done), formEdit.perenttask, parseInt(formEdit.spenttime), formEdit.target, 'NOW()', issueid]
+      db.query(sqlupdate, values, (err) => {
+        if (err) return res.status(500).json({
+          error: true,
+          message: err
+        })
+        db.query(sqlActivity, value, (err) => {
           if (err) return res.status(500).json({
             error: true,
             message: err
           })
           res.redirect(`/projects/${projectid}/issues`)
         })
+      })
+    }
+  });
 
+  //delete issue
+  router.get(`/:projectid/issues/delete/:id`, function (req, res, next) {
+    let projectid = req.params.projectid
+    let issueid = req.params.id
 
-      }
-
-    });
-
-
-
-
-
-
-
-
-
-
-
-
-
+    let sqldelete = `DELETE FROM issues WHERE projectid = $1 AND issueid = $2`
+    db.query(sqldelete, [projectid, issueid], (err) => {
+      if (err) return res.status(500).json({
+        error: true,
+        message: err
+      })
+      res.redirect(`/projects/${projectid}/issues`)
+    })
   })
 
+  //activity
+  router.get('/:projectid/activity', function (req, res, next) {
+    let projectid = req.params.projectid
+    const link = 'projects'
+    const url = 'activity'
 
-
-
-
-
-
-
-
-
-
-
-
-  // router.get('/:projectid/activity', check.isLoggedIn, function (req, res, next) {
-
-  // });
+    res.render(`projects/activity/view`, {
+      projectid,
+      link,
+      url
+    })
+  });
 
 
 
