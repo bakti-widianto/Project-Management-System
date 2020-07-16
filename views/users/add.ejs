@@ -16,7 +16,7 @@
 
     <!-- form filter -->
     <div class="container" style="margin-top: 20px">
-        <h1 style="font-family:Georgia, 'Times New Roman', Times, serif">Add User</h1>
+        <h1 style="font-family:Georgia, 'Times New Roman', Times, serif">Add</h1>
         <hr>
         <div class="container" style="margin-top: 20px ">
             <div class="card bg-light mb-3" style="font-family: initial;">
@@ -63,9 +63,9 @@
                             <div class="col-sm-10">
                                 <select name="position" id="position" class="form-control">
                                     <option selected disabled> Choose default position ...</option>
-                                    <option class="form-control" value="manager">Manager</option>
-                                    <option class="form-control" value="programmer">Software Developer</option>
-                                    <option class="form-control" value="quality assurance">Quality Assurance</option>
+                                    <option class="form-control" value="Manager">Manager</option>
+                                    <option class="form-control" value="Software Developer">Software Developer</option>
+                                    <option class="form-control" value="Quality Assurance">Quality Assurance</option>
                                 </select>
                             </div>
                         </div>
@@ -74,14 +74,16 @@
                             <label for="type-job" class="col-sm-2 col-form-label">Type Job</label>
                             <div class="col-sm-10">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="type" value="fulltime">
-                                    <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" id="fulltime" name="type"
+                                        value="Fulltime">
+                                    <label class="form-check-label" for="fulltime">
                                         Fulltime
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="type" value="parttime">
-                                    <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" id="parttime" name="type"
+                                        value="Parttime">
+                                    <label class="form-check-label" for="parttime">
                                         Part-time
                                     </label>
                                 </div>
@@ -92,14 +94,14 @@
                             <label for="type-job" class="col-sm-2 col-form-label">Role</label>
                             <div class="col-sm-10">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="isAdmin" value="true">
-                                    <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" id="admin" name="role" value="Admin">
+                                    <label class="form-check-label" for="admin">
                                         Admin
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="isAdmin" value="false">
-                                    <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" id="user" name="role" value="User">
+                                    <label class="form-check-label" for="user">
                                         User
                                     </label>
                                 </div>
