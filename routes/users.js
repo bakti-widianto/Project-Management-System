@@ -76,7 +76,8 @@ module.exports = (db) => {
           pages,
           page,
           url,
-          option: checkOption
+          option: checkOption,
+          login: req.session.user
         })
       })
     })

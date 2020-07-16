@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 const check = require('../check/check');
-const { query } = require('express');
 var moment = require('moment');
 
 let checkOption = {
@@ -116,7 +115,8 @@ module.exports = (db) => {
             pages,
             result: dataProject.rows,
             users: dataUsers.rows,
-            option: checkOption
+            option: checkOption,
+            login: user
           });
         })
       })

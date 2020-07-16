@@ -17,7 +17,8 @@ module.exports = (db) => {
       res.render('profile/listProfile', {
         link,
         user,
-        data: data.rows[0]
+        data: data.rows[0],
+        login: req.session.user
       })
     })
   });
