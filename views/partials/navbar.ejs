@@ -17,7 +17,7 @@
                 <a class="nav-link" href="/profile"><strong>Profile</strong></a>
             </li>
             <li class="nav-item <%= link == 'users' ? 'active' : '' %>">
-                <a class="nav-link" href="/users"><strong>Users</strong></a>
+                <a class="nav-link <%=login.role == 'User' ? 'disabled' : ''%>" href="/users"><strong>Users</strong></a>
             </li>
         </ul>
         <a href="/logout">
