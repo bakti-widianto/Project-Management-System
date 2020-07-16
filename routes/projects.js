@@ -909,10 +909,49 @@ module.exports = (db) => {
     const link = 'projects'
     const url = 'activity'
 
-    res.render(`projects/activity/view`, {
-      projectid,
-      link,
-      url
+    let sqlProject = `SELECT * FROM projects WHERE projectid= ${projectid}`
+    db.query(sqlProject, (err, dataProject) => {
+      if (err) return res.status(500).json({
+        error: true,
+        message: err
+      })
+      let project = dataProject.rows[0]
+      let sqlActivity = `SELECT activity.*, CONCAT(users.firstname,' ',users.lastname) AS authorname,
+      (time AT TIME ZONE 'Asia/Jakarta'):: time AS timeactivity, 
+      (time AT TIME ZONE 'Asia/Jakarta'):: date AS dateactivity
+      FROM activity
+      LEFT JOIN users ON activity.author = users.userid WHERE projectid= ${projectid} 
+      ORDER BY dateactivity DESC, timeactivity DESC`
+
+      db.query(sqlActivity, (err, dataActivity) => {
+        if (err) return res.status(500).json({
+          error: true,
+          message: err
+        })
+        let activity = dataActivity.rows
+
+        activity.forEach(item => {
+          item.dateactivity = moment(item.dateactivity).format('YYYY-MM-DD')
+          item.timeactivity = moment(item.timeactivity, 'HH:mm:ss.SSS').format('HH:mm:ss');
+
+          if (item.dateactivity == moment().format('YYYY-MM-DD')) {
+            item.dateactivity = 'Today'
+          } else if (item.dateactivity == moment().subtract(1, 'days').format('YYYY-MM-DD')) {
+            item.dateactivity = 'Yesterday'
+          } else {
+            item.dateactivity = moment(item.dateactivity).format("MMMM Do, YYYY")
+          }
+        })
+        res.render(`projects/activity/view`, {
+          // res.json({
+          moment,
+          activity,
+          project,
+          projectid,
+          link,
+          url
+        })
+      })
     })
   });
 
