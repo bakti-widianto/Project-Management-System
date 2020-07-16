@@ -43,6 +43,10 @@
                             <div class="card-body">
 
                                 <form method="POST" encType="multipart/form-data">
+                                    <input type="hidden" name="olddone" value="<%=issue.done%>">
+                                    <input type="hidden" name="oldspent"
+                                        value="<%=issue.spenttime == null ? '0' : issue.spenttime%>">
+
                                     <fieldset class="form-group">
                                         <div class="row">
                                             <legend class="col-form-label col-sm-2 pt-0">Tracker</legend>
