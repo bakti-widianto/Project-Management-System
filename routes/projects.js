@@ -141,7 +141,8 @@ module.exports = (db) => {
       })
       res.render('projects/add', {
         link,
-        data: data.rows
+        data: data.rows,
+        login: req.session.user
       })
     })
   })
@@ -217,6 +218,7 @@ module.exports = (db) => {
             nameProject,
             members,
             link,
+            login: req.session.user
           })
         })
 
@@ -276,13 +278,20 @@ module.exports = (db) => {
         error: true,
         message: err
       })
-      let sqlProject = `DELETE FROM projects WHERE projectid= ${projectid}`
-      db.query(sqlProject, (err) => {
+      let sqlIssues = `DELETE FROM issues WHERE projectid= ${projectid}`
+      db.query(sqlIssues, (err) => {
         if (err) return res.status(500).json({
           error: true,
           message: err
         })
-        res.redirect('/projects')
+        let sqlProject = `DELETE FROM projects WHERE projectid= ${projectid}`
+        db.query(sqlProject, (err) => {
+          if (err) return res.status(500).json({
+            error: true,
+            message: err
+          })
+          res.redirect('/projects')
+        })
       })
     })
   })
@@ -355,7 +364,8 @@ module.exports = (db) => {
             featureOpen,
             featureTotal,
             supportOpen,
-            supportTotal
+            supportTotal,
+            login: req.session.user
           })
         })
       })
@@ -434,7 +444,8 @@ module.exports = (db) => {
             urlpage,
             project: dataProject.rows[0],
             members: dataMamber.rows,
-            option: optionMember
+            option: optionMember,
+            login: req.session.user
           })
         })
       })
@@ -474,7 +485,8 @@ module.exports = (db) => {
           project: dataProject.rows[0],
           projectid,
           link,
-          url
+          url,
+          login: req.session.user
         })
       })
     })
@@ -521,7 +533,8 @@ module.exports = (db) => {
           link: 'projects',
           url: 'members',
           member,
-          project
+          project,
+          login: req.session.user
         })
       })
     })
@@ -640,8 +653,8 @@ module.exports = (db) => {
               option: optionIssues,
               page,
               pages,
-              urlPage
-
+              urlPage,
+              login: req.session.user
             })
           })
         })
@@ -724,7 +737,8 @@ module.exports = (db) => {
           link,
           url,
           project,
-          members
+          members,
+          login: req.session.user
         })
       })
     })
@@ -821,7 +835,8 @@ module.exports = (db) => {
               project,
               projectid,
               link,
-              url
+              url,
+              login: req.session.user
             })
           })
         })
@@ -949,7 +964,8 @@ module.exports = (db) => {
           project,
           projectid,
           link,
-          url
+          url,
+          login: req.session.user
         })
       })
     })

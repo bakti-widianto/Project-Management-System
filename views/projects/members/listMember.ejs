@@ -189,7 +189,7 @@
                                     <% for (let i = 1; i <= pages; i++) { %>
                                     <li class="page-item <%= page == i ? 'active' : '' %>">
                                         <a class="page-link"
-                                            href="/projects<%= link.replace(`page=${parseInt(page)}`, `page=${i}`) %>">
+                                            href="/projects<%= urlpage.replace(`page=${parseInt(page)}`, `page=${i}`) %>">
                                             <%= i %>
                                         </a>
                                     </li>

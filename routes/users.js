@@ -139,7 +139,8 @@ module.exports = (db) => {
       res.render('users/edit', {
         // res.json({
         link,
-        data: data.rows[0]
+        data: data.rows[0],
+        login: req.session.user
       })
     })
   })
@@ -167,5 +168,20 @@ module.exports = (db) => {
       })
     });
   })
+
+  router.get('/delete/:id', check.isLoggedIn, function (req, res) {
+    let id = req.params.id
+    let sql = `DELETE FROM users WHERE userid=$1`
+
+    db.query(sql, [id], (err) => {
+      if (err) return res.status(500).json({
+        error: true,
+        message: err
+      })
+      res.redirect('/users')
+    })
+  })
+
+  
   return router;
 }
