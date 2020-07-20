@@ -8,11 +8,20 @@ var flash = require('connect-flash');
 const fileUpload = require('express-fileupload');
 const { Pool } = require('pg')
 
+// const pool = new Pool({
+//   user: 'postgres',
+//   host: 'localhost',
+//   database: 'pmsdb',
+//   password: '112233',
+//   port: 5432,
+// })
+
+// database heroku
 const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'pmsdb',
-  password: '112233',
+  user: 'cowlhsoxxvxwpk',
+  host: 'ec2-50-19-26-235.compute-1.amazonaws.com',
+  database: 'db3eloqc3mgh6v',
+  password: '0e2188f3e0b1893711a70b75cbd73ba4ce619bb8d061468f631565cfde8543d7',
   port: 5432,
 })
 
